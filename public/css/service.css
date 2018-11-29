@@ -1,0 +1,385 @@
+.service-nav ul li:nth-child(7){display: none;}
+.tbl-even-pd tr:nth-child(even) {    border-bottom: 20px solid #fff; }
+
+
+
+
+
+
+
+
+
+
+/*.container{max-width: 1270px;}	*/
+.border-bottom{border-bottom:1px solid #e9ecef;}
+.border-top{border-top:1px solid #e9ecef;}
+.text-overflow{text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
+.bg-theme{background:#ff8901;}
+.select{position: absolute; right: 2px; bottom: 14px;}
+
+.service-section{min-height: 450px;}
+.font-raleway{font-family: 'Raleway', sans-serif;}
+
+.service-container{max-width: 1100px; margin: 0 auto;}
+.bg-services{position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; z-index: -1;}
+.bg-services-image{background-repeat: no-repeat; background-position: bottom 10% right 15%; overflow: hidden; width: 100%; height: 100%; background-image:url(../images/flight-serch.jpg); min-height: 200px; max-height: 200px; background-size: cover;}/*background-attachment: fixed;*/
+
+.service-nav{}
+.service-nav ul{padding: 0; margin: 0;}
+.service-nav ul li{list-style: none; display: inline-block;}
+.service-nav ul li a{color: #eceff2; text-decoration: none; display: inline-block; padding: 5px 30px; border-top: 3px solid transparent; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; border-radius: 4px 4px 0 0; font-weight:500;}
+.service-nav ul li a.active, .service-nav ul li a:hover{border-top: 3px solid #ff8901; 	background: rgb(255, 255, 255); color:#000;}
+
+.service-nav li img{max-width: 44px;}
+.service-form .nav-link{border: 1px solid #ddd;	border-top:none; padding: 1rem!important;}
+.service-form .nav-link.active{border-left: 3px solid #ff8901; border-right: none;}
+
+
+
+
+.service-form{ background: #fff; color: rgba(0,0,0,.87);  font-size: 0.8rem;}
+
+.service-form .checkbox-inline, .service-form .checkbox label, .service-form .is-focused .checkbox-inline, .service-form .is-focused .checkbox label, .service-form .is-focused .radio-inline, .service-form .is-focused .radio label, .service-form .is-focused .switch label,.service-form  .radio-inline, .service-form .radio label, .service-form .switch label{color:rgba(0,0,0,.87);}
+
+.service-form .radio label .bmd-radio:after,.service-form label.radio-inline .bmd-radio:after{}
+/*.service-form .radio label input[type=radio]:checked~.bmd-radio:after,.service-form label.radio-inline input[type=radio]:checked~.bmd-radio:after{border-color: #007bff;}
+.service-form .radio label input[type=radio]:checked~.bmd-radio:before,.service-form label.radio-inline input[type=radio]:checked~.bmd-radio:before{background-color: #007bff;}
+*/
+.service-form .custom-file-control,.service-form .form-control,.service-form .is-focused .custom-file-control,.service-form .is-focused .form-control{    background-image: linear-gradient(0deg,#007bff 2px,rgba(0,150,136,0) 0),linear-gradient(0deg,rgba(0,0,0,.36) 1px,transparent 0)}
+.service-form .custom-file-control,.service-form .form-control{color:#212121; padding-right:6px;}
+
+.service-form [class*=" bmd-label"],.service-form [class^=bmd-label]{color:#80858a;}
+.service-form .is-focused [class*=" bmd-label"],.service-form .is-focused [class^=bmd-label]{color:#007bff;}
+
+.service-form .map-icon{position: absolute; right: 2px; bottom: 8px; font-size:18px; color: #80858a;}
+.service-form .bmd-form-group{margin-top:-10px;}
+.replace{font-size:.875rem;}
+.service-form-inline{}
+
+
+
+
+
+
+.box-effect{box-shadow: 0 0.1rem 1rem rgba(0,0,0,.1); transition: .3s box-shadow ease, .3s transform ease; position: relative; transform: translateY(0); border: 0;}
+.box-effect:hover{box-shadow: 0 0.4rem 3.3rem rgba(0,0,0,.3); transform: translateY(-.2rem);}
+
+.service-slider .carousel-control-next, .service-slider .carousel-control-prev{background: #fff; top: 34.5%; opacity: 1; border-radius:50%; border: 1px solid #f3f1f1;}
+.service-slider .carousel-control-next:hover, .service-slider .carousel-control-prev:hover{background-color: #fff;}
+.service-slider .carousel-control-prev{left:-22px;}
+.service-slider .carousel-control-next {right: -22px;}
+
+
+/* ---------------------------------------------------
+    flight search result
+----------------------------------------------------- */
+
+.service-alert .bmd-form-group{padding-top:0;}
+
+
+/* ---------------------------------------------------
+    flight filters
+----------------------------------------------------- */
+
+#service-filters .card-header[aria-expanded="false"]:before, 
+#service-filters .card-header[aria-expanded="true"]:before {content: '\e259'; display: block; position: absolute; right: 15px; font-family: 'Glyphicons Halflings'; font-size: 0.8em; top: 10px;}
+#service-filters .card-header[aria-expanded="true"]::before { content: '\e260';}
+
+#service-filters .card{border-width:0 0 1px 0;}
+#service-filters .card-header{border:none;}
+#service-filters .bmd-form-group .checkbox label,#service-filters .bmd-form-group .radio label,#service-filters .bmd-form-group label{font-size:0.91rem;}
+#service-filters .list-group li{margin-bottom: 0.2rem;}
+
+.service-breadcrumb{padding: 0.55rem 1rem; border-radius: .25rem .25rem 0 0;}
+
+.compare-table{}
+.compare-table table{}
+.compare-table table tr{}
+.compare-table table td, .compare-table table th{padding: .5rem .9rem; vertical-align: middle;}
+
+/* ---------------------------------------------------
+    sort list
+----------------------------------------------------- */
+
+.sort_list {background-color: #ffffff;}
+
+.sort_list ul{display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; padding-left: 0; margin-bottom: 0; list-style: none;}
+
+.sort_list ul li{flex: 1 auto; text-align: center; background: #007bff; color: #fff; border-right: 1px solid #0b61bd;}
+.sort_list ul li:last-child{border-right:none;}
+
+.sort_list a{display: inline-block;	padding: 8px; width: 100%;}
+.sort_list ul li.active, .sort_list ul li:hover{color: #fff; background: #ff8901;}
+
+.flight-srch-list{}
+.flight-srch-list p{margin:0;}
+
+.flight-timeing-list ul{display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin: 0; padding: 0;}
+.flight-timeing-list ul li{list-style: none;flex: 1 auto; }
+.flight-timeing-list p{margin-bottom: 0; line-height: 18px;}
+
+.flight-icon{background-image: url(../images/icon-flight.png); background-repeat: no-repeat; background-size: contain; background-position: center; width: 40px;
+	height: 21px; display: flex; text-align: center; margin: 0 auto;}
+
+.tb-panel{}
+.tb-panel .nav-pills li{flex: 1 auto; border-right: 1px solid #ccced0;}
+.tb-panel .nav-pills .nav-link{ border-radius:0; background: #f2f2f2; text-align: center;}
+.tb-panel .nav-pills .nav-link.active, .tb-panel .show>.nav-pills .nav-link{background:#007bff; color: #fff;}
+
+.inline-list{border-bottom:1px dashed #e9ecef;}
+.inline-list ul{display: inline-flex; }
+.inline-list ul li{padding: 0 30px 0 0; list-style: square;}
+
+.theme-table{}
+.theme-table table{}
+.theme-table table tr{}
+.theme-table table td, .theme-table table th{padding: .5rem .9rem;}
+
+.shift{}
+.shift ul{margin: 0; padding: 0;}
+.shift ul li:first-child{border-left: 1px solid #e9ecef;}
+.shift ul li{flex: 1 auto; border: 1px solid #e9ecef; border-left: none; float: left; list-style: none; width: 25%; text-align: center; cursor: pointer; padding: 5px; transition: .3s box-shadow ease, .3s transform ease; transform: translateY(0); }
+.shift ul li:hover{transform: translateY(-.2rem); box-shadow: 0px 3px 0px 0px #ff8901 inset;}
+.shift ul li.active{box-shadow: 0px 3px 0px 0px #ff8901 inset;}
+
+
+.arw [aria-expanded="false"]:before, 
+.arw [aria-expanded="true"]:before {content: '\e259'; display: block; position: absolute; right: 15px; font-family: 'Glyphicons Halflings'; font-size: 0.8em; top: 9px;}
+.arw [aria-expanded="true"]::before {content: '\e260';}
+
+.table-round-flight{line-height: 18px; margin-bottom: 0;}
+.table-round-flight tbody tr:hover{background-color: #fff;}
+.table-round-flight tr td{vertical-align: middle; border: none;}
+
+
+/* ---------------------------------------------------
+    hotel page
+----------------------------------------------------- */
+.list-theme{}
+.list-theme ul{margin:0; }
+.list-theme ul li{list-style: none; display: inline-block;}
+.list-theme ul li a.active,.list-theme ul li a:hover{color: #007bff;}
+
+
+/* ---------------------------------------------------
+    hotel search page
+----------------------------------------------------- */
+
+.list-amenities{}
+.list-amenities ul{margin: 0; padding: 0;}
+.list-amenities ul li{list-style: none; display: inline-block; margin: 0 0.9rem 0 0;}
+.list-amenities ul li:last-child{margin:0;}
+.list-amenities ul li i{font-size: 1.4rem;}
+
+
+a.small-image::before {
+    content: "\f00e";
+    font-family: 'FontAwesome';
+    text-transform: lowercase;
+    position: absolute;
+    z-index: 12;
+    bottom: 0;
+    right: 0;
+    color: #fff;
+    font-size: 18px;
+    margin-left: -14px;
+    margin-left: -.875rem;
+    margin-top: -14px;
+    margin-top: -.875rem;
+    width: 44px;
+	background: rgba(0, 0, 0, 0.47);
+	padding: 6px 14px;
+}
+/*a.small-image:hover::after {
+    content: "";
+    position: absolute;
+    z-index: 11;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000;
+    opacity: .5;
+}*/
+
+
+/* ---------------------------------------------------
+    cab page
+----------------------------------------------------- */
+.price-table {border-radius: 3px;overflow: hidden;text-align: center}
+.price-table th, .price-table td {background: #000;	border: 0;border-left: 1px solid rgba(255,255,255,.1);color: #fff;text-align: center}
+.price-table th:first-child, .price-table td:first-child {background: #ffce00;border: 0;color: #000;text-align: left}
+.price-table thead th {font-size: 13px;padding: 2em 1em;color:#fff;	text-transform: uppercase;}
+.price-table tbody tr:nth-child(odd) th {background: #ffd833}
+.price-table tbody tr:nth-child(odd) td {background: #1a1a1a}
+.btn-more{background: #ffce00; border: #ffce00; color: #000;}
+.btn-more:hover, .btn-more:focus{color:#ffce00;}
+
+.cab-city-list{margin: 2px 0 0 0; padding: 0;}
+.cab-city-list li{list-style: none; display: inline-block; margin-right: 1rem;}
+
+
+/* ---------------------------------------------------
+    Train page
+----------------------------------------------------- */
+
+/*https://codepen.io/anon/pen/WzvKyV*/
+.tbox { position:relative; vertical-align: middle; display: inline-block; text-align: center; transition: 0.5s; padding: 0 10px; cursor: pointer; -webkit-transition:0.5s;}
+.tbox:hover {}
+.tbox::before, .tbox::after { width: 100%; height:100%; z-index: 3; content:''; position: absolute; top:0; left:0; box-sizing: border-box; -webkit-transform: scale(0); transition: 0.5s;}
+.stytwo::before { border-bottom: 2px solid #007bff; border-left: 2px solid #007bff; -webkit-transform-origin: 0 100%;}
+.stytwo::after { border-top: 2px solid #007bff; border-right: 2px solid #007bff; -webkit-transform-origin: 100% 0%;}
+.tbox:hover::after, .tbox:hover::before { -webkit-transform: scale(1);}
+
+
+/* ---------------------------------------------------
+    Recharge page
+----------------------------------------------------- */
+
+.recharge-inner{}
+.recharge-inner ul{}
+.recharge-inner ul li{flex: 1 auto;}
+.recharge-inner .nav-pills .nav-link, .recharge-inner .nav-tabs .nav-link{padding: 0.6em 2em}
+.recharge-inner .nav-tabs .nav-link.active, .recharge-inner .nav-tabs .nav-link.active:focus, .recharge-inner .nav-tabs .nav-link.active:hover{border-color: #007bff;}
+
+
+/* ---------------------------------------------------
+    Cabs pages
+----------------------------------------------------- */
+
+/***************************cab-booking-confirm***************************/
+
+/****gmap-over-right****/
+.gm-style .directions-card{width: 490px;}
+
+
+
+/* ---------------------------------------------------
+    ugn passport
+----------------------------------------------------- */
+
+.steps{background:#eaeef2;padding:5px;vertical-align:top}
+.step_desc{background:#f5f5f5;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.range-slider .pmd-range-slider .noUi-handle:before{
+	background: #126ed2;
+	border: 3px solid #c5ddf7;
+}
+
+.range-slider .noUi-connect{
+	background: #126ed2;
+}
+                                        
+.range-slider .pmd-range-slider .noUi-tooltip{
+	background: #126ed2;
+}
+
+.range-slider .pmd-range-slider.noUi-horizontal .noUi-handle-upper .noUi-tooltip:before, .range-slider .pmd-range-slider.noUi-horizontal .noUi-handle-lower .noUi-tooltip:before{
+	background: #126ed2;
+}
+
+.range-slider .pmd-range-slider.noUi-target{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.range-slider #value-min, .range-slider #value-max, .range-slider #specs-value-min, .range-slider #specs-value-max{
+	border:1px solid #ccc;
+	padding:5px;
+}
+.range-slider .range-value label{
+	display:block;
+}
+
+.specs-slider #specs-value-min, .specs-slider #specs-value-max{
+	    min-width: 100%;
+    display: block;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.heading-font{text-transform:uppercase; font-size: 1.25rem; font-weight: 500;}
+

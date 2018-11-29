@@ -1,0 +1,14 @@
+{
+    "name": "rituraj/excel",
+    "description": "A Package to fetch data from microsoft excel workbook",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rituraj Raina",
+            "email": "rituraj.raina@dbcorp.in"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

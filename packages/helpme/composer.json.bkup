@@ -1,0 +1,14 @@
+{
+    "name": "helpme",
+    "description": "A package to fetch form data",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rituraj Raina",
+            "email": "riturajraina@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

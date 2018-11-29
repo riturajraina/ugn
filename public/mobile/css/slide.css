@@ -1,0 +1,203 @@
+
+
+.prdct-list__item {
+    display: block;
+    overflow: hidden;
+    padding: 10px;
+    color: #111;
+	background-color:#fff;
+	border-bottom:1px solid #f2f3f5;
+}
+
+.prdct-list__ttl {
+    overflow: hidden;
+    line-height: 1.25;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 15px;
+}
+
+.prdct-list__prc {
+    margin-top:0px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0d426c;
+}
+
+
+
+.img{
+	height:90px;
+}
+
+.prdct-list__rtng-val {
+    font-weight: 600;
+    color: #009688;
+	font-size: 12px;
+}
+
+.compare_prize{
+	font-family:roboto;
+	font-size:13px;
+	color:#000;
+	text-align:center;
+	font-weight:bold;
+}
+
+.p-grid {
+    border-left: 2px solid #EEE;
+    border-right: 2px solid #EEE;
+}
+
+.mobile {
+    background-color: #fff;
+    color: #ff9900;
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+    font-size: 50px;
+    box-shadow: 1px 2px 1px grey;
+    float: left;
+}
+
+    .mobile p {
+        font-size: 15px;
+        color: #000;
+    }
+
+.p-grid {
+    border-left: 2px solid #EEE;
+    border-right: 2px solid #EEE;
+    padding: 20px 0;
+    border-top: 1px solid #EEE;
+    border-bottom: 1px solid #EEE;
+    border-left: none;
+    border-right: none;
+}
+
+.oss-grid {
+    background: #fff;
+    color: #ff9900;
+    border-left: 1px solid #EEE;
+    font-size: 27px;
+    padding: 10px 10px 10px 10px;
+}
+
+    .oss-grid p {
+        font-size: 15px;
+        color: #000;
+    }
+
+.oss2-grid {
+    background: #fff;
+    color: #ff9900;
+    border-left: 1px solid #EEE;
+    /*font-size: 27px;*/
+    /*padding: 10px 10px 10px 10px;*/
+}
+
+    .oss2-grid p {
+        font-size: 15px;
+        color: #000;
+    }
+
+.oss3-grid {
+    background: #fff;
+    color: #ff9900;
+    border-left: 1px solid #EEE;
+    font-size: 27px;
+    padding: 10px 10px 10px 10px;
+    bottom: 100px;
+}
+
+    .oss3-grid p {
+        font-size: 15px;
+        color: #000;
+    }
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    background: #f3f1f1;
+    padding: 5px 5px 5px 5px;
+    border-bottom: 2px solid #fff;
+}
+
+.nav-side-menu ul .active, .nav-side-menu li .active {
+    border-left: 3px solid #d19b3d;
+    background-color: #4f5b69;
+}
+/*-- //Oss --*/
+.topright {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+}
+/*-- //Oss_trending --*/
+
+
+.compare-headding{
+	background-color:#000;
+	padding: 5px;
+	text-align:center;
+	font-size:12px;
+	font-weight: bold;
+	color:#fff;
+	
+}
+
+.grid-compare{
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    width: 50%;
+    padding: 5px;
+    text-align: center;
+    font-size: 27px;
+	background: #fff;
+}
+.compare_img{
+	position: relative;
+    text-align: center;
+	
+}
+
+
+/* ---------------------------------------------------
+    SERVICE page  STYLE start from hear
+----------------------------------------------------- */
+.ser-menu {
+    overflow: hidden;
+    text-align: center;
+    /*margin-bottom: 0.3rem;*/
+}
+
+.ser-bg-panel {
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
+    border: solid 1px #e0dcdc;
+    background-color: #fff;
+}
+.ser__hdr {
+    position: relative;
+    padding: 9px 14px 0px;
+	text-align: left;
+}
+.ser-body {
+    overflow: hidden;
+	padding: 4px 10px;
+	
+}
+.ser-bodyb {
+    overflow: hidden;
+	
+}
+
+.ser-ta {
+    text-align: left;
+}
+
+
+ 
+

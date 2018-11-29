@@ -1,0 +1,14 @@
+{
+    "name": "rituraj/helpme",
+    "description": "A package to fetch api data like city, country etc.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rituraj Raina",
+            "email": "rituraj.raina@dbcorp.in"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
