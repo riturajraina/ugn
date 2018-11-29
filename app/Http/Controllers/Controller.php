@@ -241,6 +241,19 @@ class Controller extends BaseController
     public function uploadImage($imageCount, $imageFieldName = 'pageImage') 
     {
         $this->error                =     [];
+        if($imageFieldName == 'pageImage'){
+            $feildname = 'Upload New Images';
+        }elseif($imageFieldName == 'pageImageMobile'){
+            $feildname = 'Upload Images (Mobile)';
+        }
+        elseif($imageFieldName == 'pageImageRight'){
+            $feildname = 'Upload Images Right Side';
+        }
+        elseif($imageFieldName == 'pageImageMobileRight'){
+            $feildname = 'Upload Images Right Side (Mobile)';
+        }else{
+            $feildname = '';
+        }
         //echo '<br>Image count: ' . $imageCount;exit;
         //echo '<br>Fil array : <pre>' . print_r($_FILES, true) . '</pre>';exit;
         
@@ -258,15 +271,13 @@ class Controller extends BaseController
 
                     $imageName  =   trim($_FILES[$imageFieldName]['name'][$i]);
 
-                    if (!(
-                            stristr($type, 'image/jpeg') || stristr($type, 'image/png') || stristr($type, 'image/jpeg')
-                           || stristr($type, 'image/gif')
+    if (!(stristr($type, 'image/jpeg') || stristr($type, 'image/png') || stristr($type, 'image/jpeg') || stristr($type, 'image/gif')
                     )) {
-                        $this->error[] = 'File '. $imageName . ' is not an image';
+                        $this->error[] = 'File '. $imageName . ' is not an image in feild <strong> '.$feildname.'</strong>.';
                         continue;
 
                     } elseif ($size > 2000000) {
-                        $this->error[]    =   'Image size for image . ' . $imageName .' is greater than 2 MB';
+                        $this->error[]    =   'Image size for image . ' . $imageName .' is greater than 2 MB in feild <strong> '.$feildname.'</strong>.';
                         continue;
                     }
 
@@ -274,8 +285,9 @@ class Controller extends BaseController
 
                     $imageUrl       =   env('UGNIMAGEURLPATH') . $imageName;
 
-                    if (count($imageDetails) && is_array($imageDetails)) {
-                        $this->error[] = 'The image <strong>' . $imageName . '</strong> already exist. '
+                    if (@count($imageDetails) && @is_array($imageDetails)) {
+                      
+                        $this->error[] = 'The image <strong>' . $imageName . '</strong> already exist, in feild <strong> '.$feildname.'</strong>.'
                                 . 'Please <a href="' . $imageUrl . '" target="_blank">'
                                 . '<strong>click here</strong></a> to view this image & if its the same image you want to upload,'
                                 . ' then please dont upload the image and simply put the '
@@ -284,9 +296,8 @@ class Controller extends BaseController
                         continue;
                     }
 
-
                     $imageDestinationPath   =   env('UGNIMAGEPATH') . env('FILEPATHSEPARATOR') . $imageName;
-                    //echo '<br>$imageDestinationPath : ' . $imageDestinationPath; exit;
+                   // echo '<br>$imageDestinationPath : ' . $imageDestinationPath; die;
 
                     if (!move_uploaded_file($_FILES[$imageFieldName]['tmp_name'][$i], $imageDestinationPath)) {
                         $this->error[] = 'Unable to move uploaded image : ' . $imageName;
@@ -429,4 +440,16 @@ class Controller extends BaseController
         }
         return 'http';
     }
+
+    public function CheckValidUrl($url)
+    {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+        return true;
+        } else {
+            $this->error = 'Please use http or https with url right side';
+        return false;
+        }
+    }
+
+   
 }

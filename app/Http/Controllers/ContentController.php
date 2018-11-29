@@ -13,6 +13,7 @@ use App\Models\User\UserRepository;
 use App\Models\Clog\ChangeLogRepository;
 use App\Models\Tab\TabRepository;
 use App\Models\Accordion\AccordionRepository;
+use App\Models\Reffurl\ReffurlRepository;
 
 use App\Helpers\RightsConstantsManager;
 use App\Models\Favourites\FavouritesRepository;
@@ -21,6 +22,7 @@ use App\Models\Category\CategoryRepository;
 use App\Models\Log\Ugnheader\UgnHeaderLogRepository;
 
 use App\Helpers\ContentHelper;
+
 
 
 class ContentController extends Controller {
@@ -62,6 +64,7 @@ class ContentController extends Controller {
         $this->categoryRepository       =   new CategoryRepository();
         $this->ugnHeaderLogRepository   =   new UgnHeaderLogRepository();
         $this->contentHelper            =   new ContentHelper();
+        $this->reffurlRepository        =   new ReffurlRepository();
         
     }
     
@@ -116,7 +119,8 @@ class ContentController extends Controller {
         $data                   =   $request->all();
         
         $data                   =   $this->sanitizeInput($data);
-        
+          
+               
         $validatorArray         =   [
             'pageLinkText'      =>  'required|max:50',
             'categoryId'        =>  'required',
@@ -132,12 +136,13 @@ class ContentController extends Controller {
             return redirect('/createpage')->withInput()->withErrors($validator);
         }
         
-        $imageCount =   count($_FILES['pageImage']['name']);
-        
+     $imageCount =   count($_FILES['pageImage']['name']);
+         
         if ($imageCount) {
             if (!$this->uploadImage($imageCount)) {
-                $error          =   is_array($this->error) ? $this->error : [$this->error];
-                return redirect('/createpage')->withInput()->withErrors($error);
+
+                $error[]       =   is_array($this->error) ? $this->error : [$this->error];
+               // return redirect('/createpage')->withInput()->withErrors($error);
             }
         }
         
@@ -161,13 +166,13 @@ class ContentController extends Controller {
                 }
             }
         }
-        
+      
         if (count($contentImages)) {
             if (!$this->checkIfImageExists($contentImages)) {
                 
-                $error  = is_array($this->error) ? $this->error : [$this->error];
+                $error[]  = is_array($this->error) ? $this->error : [$this->error];
                 
-                return redirect('/createpage')->withInput()->withErrors($error);
+                //return redirect('/createpage')->withInput()->withErrors($error);
             }
         }
         
@@ -177,8 +182,8 @@ class ContentController extends Controller {
         
         if ($imageCount) {
             if (!$this->uploadImage($imageCount, 'pageImageMobile')) {
-                $error          =   is_array($this->error) ? $this->error : [$this->error];
-                return redirect('/createpage')->withInput()->withErrors($error);
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+                //return redirect('/createpage')->withInput()->withErrors($error);
             }
         }
         
@@ -205,14 +210,140 @@ class ContentController extends Controller {
         if (count($contentImagesMobile)) {
             if (!$this->checkIfImageExists($contentImagesMobile)) {
                 
-                $error  = is_array($this->error) ? $this->error : [$this->error];
+                $error[]  = is_array($this->error) ? $this->error : [$this->error];
                 
-                return redirect('/createpage')->withInput()->withErrors($error);
+                //return redirect('/createpage')->withInput()->withErrors($error);
+            }
+        }
+ /*******Till here for uploading mobile images********/
+
+      /*  Upload image for right side*/
+      if($data['image_select'] == 'image'){
+         $img_url = @$data['img_url'];
+      $imageCountRight =   count($_FILES['pageImageRight']['name']);
+
+      if (!empty($img_url) && $_FILES['pageImageRight']['name'][0] == '' && @$data['contentImagesRight'] == '') {
+            
+                $this->error = 'Please Upload Images Right Side or Content Images Right Side';
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+                //return redirect('/createpage')->withInput()->withErrors($error);
+            
+        }
+       
+        if ($imageCountRight) {
+            if (!$this->uploadImage($imageCountRight,'pageImageRight')) {
+
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+              //  return redirect('/createpage')->withInput()->withErrors($error);
+            }
+        }
+        if (!empty($img_url)) {
+            if (!$this->CheckValidUrl($img_url)) {
+
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+              //  return redirect('/createpage')->withInput()->withErrors($error);
+            }
+        }
+
+         
+        
+        $contentImagesRight              =   [];
+        
+        if (!empty($data['contentImagesRight'])) {
+            
+            if (stristr($data['contentImagesRight'], ',')) {
+                $contentImagesRight      =   explode(',', $data['contentImagesRight']);
+            } else {
+                $contentImagesRight[]    =   trim($data['contentImagesRight']);
+            }
+            
+            $contentImagesRight          =   $this->sanitizeInput($contentImagesRight);
+        }
+        
+        if (!empty($this->uploadedImages)) {
+            foreach ($this->uploadedImages as $image) {
+                if (!in_array($image, $contentImagesRight)) {
+                    $contentImagesRight[] = $image;
+                }
+            }
+        }
+      
+        if (count($contentImagesRight)) {
+            if (!$this->checkIfImageExists($contentImagesRight)) {
+                
+                $error[]  = is_array($this->error) ? $this->error : [$this->error];
+                
+               // return redirect('/createpage')->withInput()->withErrors($error);
+            }
+        }
+
+    }else{
+        $img_url = $data['videourl'];
+        $contentImagesRight              =   [];
+        if (!empty($img_url)) {
+            if (!$this->CheckValidUrl($img_url)) {
+
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+              //  return redirect('/createpage')->withInput()->withErrors($error);
+            }
+        }
+    }
+        
+        /********From here for uploading mobile images********/
+        
+        $imageCountRight =   count($_FILES['pageImageMobileRight']['name']);
+        
+        if ($imageCountRight) {
+            if (!$this->uploadImage($imageCountRight, 'pageImageMobileRight')) {
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+               // return redirect('/createpage')->withInput()->withErrors($error);
             }
         }
         
-        /*******Till here for uploading mobile images********/
+        $contentImagesMobileRight              =   [];
         
+        if (!empty($data['contentImagesMobileRight'])) {
+            if (stristr($data['contentImagesMobileRight'], ',')) {
+                $contentImagesMobileRight      =   explode(',', $data['contentImagesMobileRight']);
+            } else {
+                $contentImagesMobileRight[]    =   trim($data['contentImagesMobileRight']);
+            }
+            
+            $contentImagesMobileRight          =   $this->sanitizeInput($contentImagesMobileRight);
+        }
+        
+        if (!empty($this->uploadedImages)) {
+            foreach ($this->uploadedImages as $image) {
+                if (!in_array($image, $contentImagesMobileRight)) {
+                    $contentImagesMobileRight[] = $image;
+                }
+            }
+        }
+        
+        if (count($contentImagesMobileRight)) {
+            if (!$this->checkIfImageExists($contentImagesMobileRight)) {
+                
+                $error[]  = is_array($this->error) ? $this->error : [$this->error];
+                
+               // return redirect('/createpage')->withInput()->withErrors($error);
+            }
+        }
+
+        if(!empty($error)){
+            
+             return redirect('/createpage')->withInput()->withErrors($error);
+        }
+ /*******Till here for uploading mobile images for right side********/
+ /*  End */
+
+ //---------- For Ref Urls -------------------------------//
+     $ref_ids =   $this->reffUrl($data['references']);
+     
+     $ref_ids_imp = implode(',',$ref_ids);
+
+//---------------End --------------------------------------//
+        
+       
         $saveData = [
             'page_link_text'        =>  $data['pageLinkText'],
             'fk_page_category_id'   =>  $data['categoryId'],
@@ -220,7 +351,11 @@ class ContentController extends Controller {
             'title'                 =>  $data['pageTitle'],
             'contentImages'         =>  implode(',', $contentImages),
             'contentImages_Mob'     =>  implode(',', $contentImagesMobile),
+            'contentImages_right'   =>  implode(',', $contentImagesRight),
+            'right_image_vid_url'   =>  $img_url,
+            'contentImages_Mob_right' =>implode(',', $contentImagesMobileRight),
             'paragraph'             =>  $data['paragraph'],
+            'ref_ids'               =>  $ref_ids_imp,
             'fk_admin_user_id'      =>  Auth::user()->pk_admin_user_id,
             'status'                =>  $data['status'],
         ];
@@ -322,13 +457,13 @@ class ContentController extends Controller {
         if ($validator->fails()) {
             return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($validator);
         }
-        
+       
         $imageCount     =   count($_FILES['pageImage']['name']);
         
         if ($imageCount) {
             if (!$this->uploadImage($imageCount)) {
-                $error  =   is_array($this->error) ? $this->error : [$this->error];
-                return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+                $error[]  =   is_array($this->error) ? $this->error : [$this->error];
+              //  return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
             }
         }
         
@@ -357,9 +492,9 @@ class ContentController extends Controller {
         if (count($contentImages)) {
             if (!$this->checkIfImageExists($contentImages)) {
                 
-                $error  = is_array($this->error) ? $this->error : [$this->error];
+                $error[]  = is_array($this->error) ? $this->error : [$this->error];
                 
-                return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+               // return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
             }
         }
         
@@ -371,8 +506,8 @@ class ContentController extends Controller {
         
         if ($imageCount) {
             if (!$this->uploadImage($imageCount, 'pageImageMobile')) {
-                $error          =   is_array($this->error) ? $this->error : [$this->error];
-                return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+               // return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
             }
         }
         
@@ -399,14 +534,144 @@ class ContentController extends Controller {
         if (count($contentImagesMobile)) {
             if (!$this->checkIfImageExists($contentImagesMobile)) {
                 
-                $error  = is_array($this->error) ? $this->error : [$this->error];
+                $error[]  = is_array($this->error) ? $this->error : [$this->error];
                 
                 //return redirect('/createpage')->withInput()->withErrors($error);
-                return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+               // return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
             }
         }
         
         /******************Till here for mobile images***************/
+
+           /*  Upload image for right side*/
+           if($data['image_select'] == 'image'){
+            $img_url = @$data['img_url'];
+
+       $imageCountRight =   count($_FILES['pageImageRight']['name']);
+         
+        if ($imageCountRight) {
+            if (!$this->uploadImage($imageCountRight,'pageImageRight')) {
+
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+               // return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+            }
+        }
+        
+        $contentImagesRight              =   [];
+        
+        if (!empty($data['contentImagesRight'])) {
+            
+            if (stristr($data['contentImagesRight'], ',')) {
+                $contentImagesRight      =   explode(',', $data['contentImagesRight']);
+            } else {
+                $contentImagesRight[]    =   trim($data['contentImagesRight']);
+            }
+            
+            $contentImagesRight          =   $this->sanitizeInput($contentImagesRight);
+        }
+
+        if (!empty($img_url) && $_FILES['pageImageRight']['name'][0] == '' && @$data['contentImagesRight'] == '') {
+            
+                $this->error = 'Please Upload Images Right Side or Content Images Right Side';
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+                //return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+            
+        }
+       
+       
+        if (!empty($img_url)) {
+            if (!$this->CheckValidUrl($img_url)) {
+
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+               // return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+            }
+        }
+        
+        if (!empty($this->uploadedImages)) {
+            foreach ($this->uploadedImages as $image) {
+                if (!in_array($image, $contentImagesRight)) {
+                    $contentImagesRight[] = $image;
+                }
+            }
+        }
+      
+        if (count($contentImagesRight)) {
+            if (!$this->checkIfImageExists($contentImagesRight)) {
+                
+                $error[]  = is_array($this->error) ? $this->error : [$this->error];
+                
+              //  return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+            }
+        }
+
+    }else{
+        $img_url = $data['videourl'];
+        $contentImagesRight              =   [];
+        if (!empty($img_url)) {
+            if (!$this->CheckValidUrl($img_url)) {
+
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+               // return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+            }
+        }
+    }
+
+        
+        /********From here for uploading mobile images********/
+        
+        $imageCountRight =   count($_FILES['pageImageMobileRight']['name']); 
+        
+        if ($imageCountRight) {
+            if (!$this->uploadImage($imageCountRight, 'pageImageMobileRight')) {
+                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+               // return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+            }
+        }
+        
+        $contentImagesMobileRight              =   [];
+        
+        if (!empty($data['contentImagesMobileRight'])) {
+            if (stristr($data['contentImagesMobileRight'], ',')) {
+                $contentImagesMobileRight      =   explode(',', $data['contentImagesMobileRight']);
+            } else {
+                $contentImagesMobileRight[]    =   trim($data['contentImagesMobileRight']);
+            }
+            
+            $contentImagesMobileRight          =   $this->sanitizeInput($contentImagesMobileRight);
+        }
+        
+        if (!empty($this->uploadedImages)) {
+            foreach ($this->uploadedImages as $image) {
+                if (!in_array($image, $contentImagesMobileRight)) {
+                    $contentImagesMobileRight[] = $image;
+                }
+            }
+        }
+        
+        if (count($contentImagesMobileRight)) {
+            if (!$this->checkIfImageExists($contentImagesMobileRight)) {
+                
+                $error[]  = is_array($this->error) ? $this->error : [$this->error];
+                
+               // return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+            }
+        }
+
+        if(!empty($error)){
+           
+             return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
+        }
+ /*******Till here for uploading mobile images for right side********/
+ /*  End */
+
+    //---------- For Ref Urls -------------------------------//
+     $ref_ids =   $this->reffUrl($data['references']);
+     
+     $ref_ids_imp = implode(',',$ref_ids); 
+
+//---------------End --------------------------------------//
+
+
         
         $searchArray    =   ['searchArray' => ['pk_content_id' => $data['pageId']], 'api_call' => 1];
         
@@ -429,8 +694,38 @@ class ContentController extends Controller {
         $logArray       =   [];
         
         $dateTime       =   date('Y-m-d H:i:s');
-        
-        if ($pageDetails['title'] <> $data['pageTitle'])
+       //  $updateArray['right_image_vid_url']   =   $img_url;
+        if ($pageDetails['ref_ids'] <> $ref_ids_imp)
+        {
+            $updateArray['ref_ids']   =   $ref_ids_imp;
+            
+            $logArray[]             =   [
+                'table_name'        =>  $this->contentRepository->getContentTableName(),
+                'table_column'      =>  'ref_ids',
+                'old_value'         =>  $pageDetails['ref_ids'],
+                'new_value'         =>  $ref_ids_imp,
+                'created_at'        =>  $dateTime,
+                'fk_admin_user_id'  =>  Auth::user()->pk_admin_user_id,
+                'value_pk'          =>  $pageDetails['pk_content_id'],
+            ];
+        }
+
+         if ($pageDetails['right_image_vid_url'] <> $img_url)
+        {
+            $updateArray['right_image_vid_url']   =   $img_url;
+            
+            $logArray[]             =   [
+                'table_name'        =>  $this->contentRepository->getContentTableName(),
+                'table_column'      =>  'right_image_vid_url',
+                'old_value'         =>  $pageDetails['right_image_vid_url'],
+                'new_value'         =>  $img_url,
+                'created_at'        =>  $dateTime,
+                'fk_admin_user_id'  =>  Auth::user()->pk_admin_user_id,
+                'value_pk'          =>  $pageDetails['pk_content_id'],
+            ];
+        }
+
+         if ($pageDetails['title'] <> $data['pageTitle'])
         {
             $updateArray['title']   =   $data['pageTitle'];
             
@@ -517,6 +812,40 @@ class ContentController extends Controller {
                 'table_name'        =>  $this->contentRepository->getContentTableName(),
                 'table_column'      =>  'contentImages_Mob',
                 'old_value'         =>  $pageDetails['contentImages_Mob'],
+                'new_value'         =>  $implodeContentImages,
+                'created_at'        =>  $dateTime,
+                'fk_admin_user_id'  =>  Auth::user()->pk_admin_user_id,
+                'value_pk'          =>  $pageDetails['pk_content_id'],
+            ];
+        }
+
+        $implodeContentImages       =   implode(',', $contentImagesRight);
+        
+        if ($pageDetails['contentImages_right'] <> $implodeContentImages)
+        {
+            $updateArray['contentImages_right']   =   $implodeContentImages;
+            
+            $logArray[]             =   [
+                'table_name'        =>  $this->contentRepository->getContentTableName(),
+                'table_column'      =>  'contentImages_right',
+                'old_value'         =>  $pageDetails['contentImages_right'],
+                'new_value'         =>  $implodeContentImages,
+                'created_at'        =>  $dateTime,
+                'fk_admin_user_id'  =>  Auth::user()->pk_admin_user_id,
+                'value_pk'          =>  $pageDetails['pk_content_id'],
+            ];
+        }
+
+        $implodeContentImages       =   implode(',', $contentImagesMobileRight);
+        
+        if ($pageDetails['contentImages_Mob_right'] <> $implodeContentImages)
+        {
+            $updateArray['contentImages_Mob_right']   =   $implodeContentImages;
+            
+            $logArray[]             =   [
+                'table_name'        =>  $this->contentRepository->getContentTableName(),
+                'table_column'      =>  'contentImages_Mob_right',
+                'old_value'         =>  $pageDetails['contentImages_Mob_right'],
                 'new_value'         =>  $implodeContentImages,
                 'created_at'        =>  $dateTime,
                 'fk_admin_user_id'  =>  Auth::user()->pk_admin_user_id,
@@ -623,10 +952,24 @@ class ContentController extends Controller {
          * As page is being updated, hence no need to increment
          * display order list by 1...Rituraj 8 Sep 2018
          */
+        if(!empty($pageDetails['ref_ids'])){
+         $pre_ids =array();         
+           
+            $refurls = explode(',',$pageDetails['ref_ids']);
+            for ($i=0;$i<count($refurls);$i++) {  
+            
+                    $refurlDetails   =   $this->reffurlRepository->getNameUrl($refurls[$i]);
+                   
+                    $pre_ids[] = $refurlDetails[0]['ref_url'];                 
+                         
+            } }
+
+            $refurls_val = implode(',',$pre_ids);
         
         $viewArray      =   [
             'pageDetails'           =>  $pageDetails, 
             'selectOptionsManager'  =>  $this->selectOptionsManager,
+            'refurls_val'           =>  $refurls_val,
             'categoryList'          =>  $categoryList,
             'displayOrderList'      =>  $displayOrderList,
         ];
@@ -1752,5 +2095,51 @@ class ContentController extends Controller {
         
         return view('createpagecontentarray', $createPageViewArray);
     }
+
+    public function reffUrl($refurls) 
+    {
+        $this->error                =     [];
+
+        try {
+         $pre_ids =array(); 
+         
+            $this->reffUrl   =     [];
+            $refurls = explode(',',$refurls);
+            for ($i=0;$i<count($refurls);$i++) {  
+                    if(!empty($refurls[$i])){
+                    $refurlDetails   =   $this->reffurlRepository->checkIfExist($refurls[$i]);
+
+                    if ($refurlDetails > 0) {
+                    $pre_ids[] = $refurlDetails[0]['pk_ref_id'];
+                    }else{ 
+                    $saveRefData  =   [
+                        'ref_url'        =>  $refurls[$i],                        
+                    ];
+                    $insert = $this->reffurlRepository->saveRefUrls($saveRefData);
+                    if ($insert) {
+                        $pre_ids[] = $insert;
+                    }else{
+                         $this->error[]    =   $this->reffurlRepository->getError();
+                    }
+
+                }
+             // print_r($pre_ids);
+            }
+        }
+          
+            if (count($this->error)) {
+                return false;
+            }
+            return  array_unique($pre_ids); 
+            //return true;
+        } catch (\Exception $ex) {
+            $this->error[]    =   $ex->getMessage();
+            return false;
+        }
+        
+        
+    }
+
+    
 }
 

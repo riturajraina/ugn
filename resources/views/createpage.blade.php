@@ -1,11 +1,12 @@
 @extends('layouts.app')
 @section('content')
 @include('errors.register')
-
+<script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
 <?php
     require_once(env('VIEWSPATH') .  'rtecodeinclude.php');
-?>
 
+?>
 <!--<div class="container" style="width:150%;align-content:left;padding-left:0px;float:left;position: absolute;">-->
 <div class="container" style="align-content:left;">
     <div class="row">
@@ -161,6 +162,130 @@
                                 @endif
                             </div>
                         </div>
+
+          <!--  Code for upload image to right side        -->     
+             <br><br>
+               <div class="form-group">
+                            <label for="image" class="col-md-3 control-label">Choose</label>    <?php  if(Input::old('image_select') == 'image') {
+                                $c1 = 'checked="checked"';
+                                $c2 = '';
+                                $c3 = '';
+                                $c4 = 'display:none';
+                            } elseif(Input::old('image_select') == 'video') { 
+                                $c1 = '';
+                                $c2 = 'checked="checked"';
+                                $c3 = 'display:none';
+                                $c4 = '';   
+                            }else{
+                                $c1 = 'checked="checked"';
+                                $c2 = '';
+                                $c3 = '';
+                                $c4 = 'display:none';
+                            }
+                            ?>              
+                            <div class="col-md-6">
+                             Image Upload   <input type="radio" name="image_select" value="image" <?php echo $c1;?>>
+                             &nbsp; &nbsp; &nbsp; &nbsp;
+                             Video Upload   <input type="radio" name="image_select" value="video" <?php echo $c2;?>>
+
+                                
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}" id="imageurl" style="<?php echo $c3;?>">
+                            <label for="image" class="col-md-3 control-label">Upload Images Right Side (Desktop)</label>
+                            
+                            <div class="col-md-6">
+                                <input type="file" name="pageImageRight[]" multiple="multiple">
+
+                                @if ($errors->has('image'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('pageImageRight') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                      
+                        
+                        <div class="form-group{{ $errors->has('contentImagesRight') ? ' has-error' : '' }}" id="contentimageurl" style="<?php echo $c3;?>">
+                            <label for="contentImagesRight" class="col-md-3 control-label">Content Images Right Side (Desktop)</label>
+
+                            <div class="col-md-6">
+                                <input id="contentImagesRight" type="text" class="form-control" name="contentImagesRight" 
+                                value="<?php echo (!empty(Input::old('contentImagesRight')) ? Input::old('contentImagesRight') : '');?>"
+                                autofocus maxlength="255" 
+                                placeholder="Please enter names of already uploaded images separated by a comma ', ' here if required for this page" style="width:800px;">
+
+                                @if ($errors->has('contentImages'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('contentImages') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                         <div class="form-group{{ $errors->has('contentImagesRight') ? ' has-error' : '' }}"  id="img_url" style="<?php echo $c3;?>">
+                            <label for="img_url" class="col-md-3 control-label"> Image Url Right Side (Desktop)</label>
+                         <div class="col-md-6">
+                                <input  type="text" class="form-control" name="img_url" 
+                                value="<?php echo (!empty(Input::old('img_url')) ? Input::old('img_url') : '');?>"
+                                autofocus maxlength="255" 
+                                placeholder="Please enter image url" style="width:800px;">
+
+                                @if ($errors->has('img_url'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('img_url') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                          <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}" id="videourl" style="<?php echo $c4;?>">
+                            <label for="image" class="col-md-3 control-label">Video Url Right Side (Desktop)</label>
+                            
+                            <div class="col-md-6">
+                                <input type="text" class="form-control"  name="videourl" value="<?php echo (!empty(Input::old('videourl')) ? Input::old('videourl') : '');?>" placeholder="Please enter Video url" style="width:800px;">
+
+                                @if ($errors->has('image'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('pageImageRight') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <br><br>
+                        <div class="form-group{{ $errors->has('pageImageMobileRight') ? ' has-error' : '' }}">
+                            <label for="pageImageMobileRight" class="col-md-3 control-label">Upload Images Right Side (Mobile)</label>
+                            
+                            <div class="col-md-6">
+                                <input type="file" name="pageImageMobileRight[]" multiple="multiple">
+
+                                @if ($errors->has('imageMobile'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('pageImageMobileRight') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <div class="form-group{{ $errors->has('contentImagesMobile') ? ' has-error' : '' }}">
+                            <label for="contentImagesMobile" class="col-md-3 control-label">Content Images Right Side (Mobile)</label>
+
+                            <div class="col-md-6">
+                                <input id="contentImagesMobileRight" type="text" class="form-control" name="contentImagesMobileRight" 
+                                value="<?php echo (!empty(Input::old('contentImagesMobileRight')) ? Input::old('contentImagesMobileRight') 
+                                        : '');?>"
+                                autofocus maxlength="255" placeholder="Please enter names of already uploaded images separated by a comma ', ' here if required for this page" 
+                                style="width:800px;">
+
+                                @if ($errors->has('contentImagesMobileRight'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('contentImagesMobileRight') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+             <!--    End  -->
                         <!--Will do this afterwards in new desktop design if required
                         <br><br>
                         <div class="form-group{{ $errors->has('favouriteMedia') ? ' has-error' : '' }}">
@@ -194,6 +319,29 @@
                                 @endif
                             </div>
                         </div>-->
+                           <br><br>
+                        <div class="form-group{{ $errors->has('paragraph') ? ' has-error' : '' }}">
+                            <label for="paragraph" class="col-md-3 control-label">References</label>
+
+                            <div class="col-md-6" style="width:75%">
+                                
+                               <!--  <textarea  class="form-control" name="references"
+                                autofocus  rows="4" placeholder="Please enter Urls separated by a comma ', '"><?php 
+                                    echo (!empty(Input::old('referrences')) ? Input::old('referrences') : '');
+                                ?></textarea> -->
+                                <input id="references" type="text" class="form-control" name="references" 
+                                value="<?php echo (!empty(Input::old('references')) ? Input::old('references') 
+                                        : '');?>"
+                                autofocus maxlength="255" placeholder="Please enter Urls separated by a comma ', '" 
+                                style="width:800px;height: 100px;">
+                                
+                                @if ($errors->has('references'))
+                                     <span class="help-block">
+                                    <strong>{{ $errors->first('references') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
                         <br><br>
                         <div class="form-group{{ $errors->has('paragraph') ? ' has-error' : '' }}">
                             <label for="paragraph" class="col-md-3 control-label">Paragraph</label>
@@ -250,4 +398,23 @@
         </div>
     </div>
 </div>
+<script>
+    $("input[name='image_select']").change(function(){
+      var value_radio =   $(this).val();
+      if(value_radio == 'image'){
+        $("#videourl").css('display','none');
+        $("#imageurl").css('display','');
+        $("#contentimageurl").css('display','');
+        $("#img_url").css('display','');
+      }
+        if(value_radio == 'video'){
+        $("#videourl").css('display','');
+        $("#imageurl").css('display','none');
+        $("#contentimageurl").css('display','none');
+        $("#img_url").css('display','none');
+      }
+    
+});
+    </script>
 @endsection
+

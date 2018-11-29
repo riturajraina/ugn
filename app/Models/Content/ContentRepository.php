@@ -27,12 +27,13 @@ class ContentRepository extends BaseRepository {
             
             if (!empty($data['pk_content_id'])) {
                 $result =   $this->_dbUgnContentMaster::where('pk_content_id', '<>', $data['pk_content_id']);
+
             }
             
             global  $globalData;
             
             $globalData =   $data;
-            
+              if (isset($data['title']) || isset($data['page_link_text'])) {
             $result     =   $result->where (
                     
                                 function ($query) {
@@ -62,7 +63,7 @@ class ContentRepository extends BaseRepository {
                                     } 
                                 }
                             );
-                            
+                          
             $result     =   $result->get(['title', 'page_link_text'])->toArray();
             
             if (count($result) && is_array($result)) {
@@ -85,7 +86,8 @@ class ContentRepository extends BaseRepository {
                     return false;
                 }
             }
-            
+        }
+           
             return true;
             
         } catch (\Exception $ex) {
@@ -93,29 +95,34 @@ class ContentRepository extends BaseRepository {
             return false;
         }
     }
-    
-    public function arrangeDisplayOrder($data)
+
+    public function updatePageData($data)
     {
         try {
-            if (!empty($data['pageUpdate'])) {
-                $result =   $this->_dbUgnContentMaster::where(['pk_content_id' => $data['pk_content_id']])
-                            ->get(['display_order'])->toArray();
+            //echo '<br>update data : <pre>' . print_r($data, true) . '</pre>';exit;
+            if (!$this->checkForDuplicateData($data)) {
+                return false;
+            }
+           
+            if (!empty($data['display_order'])) {
                 
-                $result =   $result['0'];
+                $data['pageUpdate'] = true;
                 
-                $result =   $this->_dbUgnContentMaster::where(['display_order' => $data['display_order']])
-                            ->update(['display_order' => $result['display_order']]);//Swap display orders
+                if (!$this->arrangeDisplayOrder($data)) {
+                    return false;
+                }
                 
-                return true;
+                unset($data['pageUpdate']);
             }
             
-            $result = $this->_dbUgnContentMaster::where('pk_content_id', '<>', $data['pk_content_id'])
-                      ->where('display_order', '>=', $data['display_order'])
-                      ->update(['display_order' => DB::raw('`display_order` + 1')]);
+            if (!$this->_dbUgnContentMaster::where(['pk_content_id' => $data['pk_content_id']])->update($data)) {
+                $this->error = 'Unable to update page content due to a database error';
+                return false;
+            }
             
             return true;
         } catch (\Exception $ex) {
-            $this->setError('re-arrange display order of content pages', $ex);
+            $this->setError('update page data', $ex);
             return false;
         }
     }
@@ -137,7 +144,11 @@ class ContentRepository extends BaseRepository {
             $this->_dbUgnContentMaster->title               =   $data['title'];
             $this->_dbUgnContentMaster->contentImages       =   $data['contentImages'];
             $this->_dbUgnContentMaster->contentImages_Mob   =   $data['contentImages_Mob'];
+            $this->_dbUgnContentMaster->contentImages_right =   $data['contentImages_right'];
+            $this->_dbUgnContentMaster->contentImages_Mob_right =   $data['contentImages_Mob_right'];
+            $this->_dbUgnContentMaster->right_image_vid_url =   $data['right_image_vid_url'];
             $this->_dbUgnContentMaster->paragraph           =   $data['paragraph'];
+            $this->_dbUgnContentMaster->ref_ids             =   $data['ref_ids'];
             $this->_dbUgnContentMaster->fk_admin_user_id    =   $data['fk_admin_user_id'];
             $this->_dbUgnContentMaster->status              =   $data['status'];
             $this->_dbUgnContentMaster->created_at          =   $dateTime;
@@ -165,36 +176,35 @@ class ContentRepository extends BaseRepository {
         }
     }
     
-    public function updatePageData($data)
+    public function arrangeDisplayOrder($data)
     {
         try {
-            //echo '<br>update data : <pre>' . print_r($data, true) . '</pre>';exit;
-            if (!$this->checkForDuplicateData($data)) {
-                return false;
+            if (!empty($data['pageUpdate'])) {
+                $result =   $this->_dbUgnContentMaster::where(['pk_content_id' => $data['pk_content_id']])
+                            ->get(['display_order'])->toArray();
+                
+                $result =   $result['0'];
+                
+                $result =   $this->_dbUgnContentMaster::where(['display_order' => $data['display_order']])
+                            ->update(['display_order' => $result['display_order']]);//Swap display orders
+                
+                return true;
             }
             
-            if (!empty($data['display_order'])) {
-                
-                $data['pageUpdate'] = true;
-                
-                if (!$this->arrangeDisplayOrder($data)) {
-                    return false;
-                }
-                
-                unset($data['pageUpdate']);
-            }
-            
-            if (!$this->_dbUgnContentMaster::where(['pk_content_id' => $data['pk_content_id']])->update($data)) {
-                $this->error = 'Unable to update page content due to a database error';
-                return false;
-            }
+    $result = $this->_dbUgnContentMaster::where('pk_content_id', '<>', $data['pk_content_id'])
+                      ->where('display_order', '>=', $data['display_order'])
+                      ->update(['display_order' => DB::raw('`display_order` + 1')]);
             
             return true;
         } catch (\Exception $ex) {
-            $this->setError('update page data', $ex);
+            $this->setError('re-arrange display order of content pages', $ex);
             return false;
         }
     }
+
+    
+    
+    
     
     public function getPageList($data=array())
     {
