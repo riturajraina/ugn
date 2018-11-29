@@ -96,38 +96,34 @@ class ContentRepository extends BaseRepository {
         }
     }
 
-    public function updatePageData($data)
+  
+    public function arrangeDisplayOrder($data)
     {
         try {
-            //echo '<br>update data : <pre>' . print_r($data, true) . '</pre>';exit;
-            if (!$this->checkForDuplicateData($data)) {
-                return false;
-            }
-           
-            if (!empty($data['display_order'])) {
+            if (!empty($data['pageUpdate'])) {
+                $result =   $this->_dbUgnContentMaster::where(['pk_content_id' => $data['pk_content_id']])
+                            ->get(['display_order'])->toArray();
                 
-                $data['pageUpdate'] = true;
+                $result =   $result['0'];
                 
-                if (!$this->arrangeDisplayOrder($data)) {
-                    return false;
-                }
+                $result =   $this->_dbUgnContentMaster::where(['display_order' => $data['display_order']])
+                            ->update(['display_order' => $result['display_order']]);//Swap display orders
                 
-                unset($data['pageUpdate']);
+                return true;
             }
             
-            if (!$this->_dbUgnContentMaster::where(['pk_content_id' => $data['pk_content_id']])->update($data)) {
-                $this->error = 'Unable to update page content due to a database error';
-                return false;
-            }
+    $result = $this->_dbUgnContentMaster::where('pk_content_id', '<>', $data['pk_content_id'])
+                      ->where('display_order', '>=', $data['display_order'])
+                      ->update(['display_order' => DB::raw('`display_order` + 1')]);
             
             return true;
         } catch (\Exception $ex) {
-            $this->setError('update page data', $ex);
+            $this->setError('re-arrange display order of content pages', $ex);
             return false;
         }
     }
-
-    public function savePageData($data) 
+    
+     public function savePageData($data) 
     {
         try {
             $data   =   $this->trimArray($data);
@@ -176,36 +172,37 @@ class ContentRepository extends BaseRepository {
         }
     }
     
-    public function arrangeDisplayOrder($data)
+        public function updatePageData($data)
     {
         try {
-            if (!empty($data['pageUpdate'])) {
-                $result =   $this->_dbUgnContentMaster::where(['pk_content_id' => $data['pk_content_id']])
-                            ->get(['display_order'])->toArray();
+            //echo '<br>update data : <pre>' . print_r($data, true) . '</pre>';exit;
+            if (!$this->checkForDuplicateData($data)) {
+                return false;
+            }
+           
+            if (!empty($data['display_order'])) {
                 
-                $result =   $result['0'];
+                $data['pageUpdate'] = true;
                 
-                $result =   $this->_dbUgnContentMaster::where(['display_order' => $data['display_order']])
-                            ->update(['display_order' => $result['display_order']]);//Swap display orders
+                if (!$this->arrangeDisplayOrder($data)) {
+                    return false;
+                }
                 
-                return true;
+                unset($data['pageUpdate']);
             }
             
-    $result = $this->_dbUgnContentMaster::where('pk_content_id', '<>', $data['pk_content_id'])
-                      ->where('display_order', '>=', $data['display_order'])
-                      ->update(['display_order' => DB::raw('`display_order` + 1')]);
+            if (!$this->_dbUgnContentMaster::where(['pk_content_id' => $data['pk_content_id']])->update($data)) {
+                $this->error = 'Unable to update page content due to a database error';
+                return false;
+            }
             
             return true;
         } catch (\Exception $ex) {
-            $this->setError('re-arrange display order of content pages', $ex);
+            $this->setError('update page data', $ex);
             return false;
         }
     }
-
-    
-    
-    
-    
+        
     public function getPageList($data=array())
     {
         try {

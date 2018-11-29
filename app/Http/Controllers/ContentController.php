@@ -222,10 +222,11 @@ class ContentController extends Controller {
          $img_url = @$data['img_url'];
       $imageCountRight =   count($_FILES['pageImageRight']['name']);
 
-      if (!empty($img_url) && $_FILES['pageImageRight']['name'][0] == '' && @$data['contentImagesRight'] == '') {
+      if (!empty($img_url) && $_FILES['pageImageRight']['name'][0] == '' && 
+              @$data['contentImagesRight'] == '') {
             
-                $this->error = 'Please Upload Images Right Side or Content Images Right Side';
-                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+            $this->error   =   'Please Upload Images Right Side or Content Images Right Side';
+            $error[]       =   is_array($this->error) ? $this->error : [$this->error];
                 //return redirect('/createpage')->withInput()->withErrors($error);
             
         }
@@ -337,9 +338,9 @@ class ContentController extends Controller {
  /*  End */
 
  //---------- For Ref Urls -------------------------------//
-     $ref_ids =   $this->reffUrl($data['references']);
+     $ReffIds =   $this->reffUrl($data['references']);
      
-     $ref_ids_imp = implode(',',$ref_ids);
+     $RefIdsFinal = implode(',',$ReffIds);
 
 //---------------End --------------------------------------//
         
@@ -355,7 +356,7 @@ class ContentController extends Controller {
             'right_image_vid_url'   =>  $img_url,
             'contentImages_Mob_right' =>implode(',', $contentImagesMobileRight),
             'paragraph'             =>  $data['paragraph'],
-            'ref_ids'               =>  $ref_ids_imp,
+            'ref_ids'               =>  $RefIdsFinal,
             'fk_admin_user_id'      =>  Auth::user()->pk_admin_user_id,
             'status'                =>  $data['status'],
         ];
@@ -570,10 +571,11 @@ class ContentController extends Controller {
             $contentImagesRight          =   $this->sanitizeInput($contentImagesRight);
         }
 
-        if (!empty($img_url) && $_FILES['pageImageRight']['name'][0] == '' && @$data['contentImagesRight'] == '') {
+        if (!empty($img_url) && $_FILES['pageImageRight']['name'][0] == '' 
+                && @$data['contentImagesRight'] == '') {
             
-                $this->error = 'Please Upload Images Right Side or Content Images Right Side';
-                $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+            $this->error    =      'Please Upload Images Right Side or Content Images Right Side';
+            $error[]          =   is_array($this->error) ? $this->error : [$this->error];
                 //return redirect('/editpage/' . $data['pageId'])->withInput()->withErrors($error);
             
         }
@@ -604,7 +606,7 @@ class ContentController extends Controller {
             }
         }
 
-    }else{
+    } else {
         $img_url = $data['videourl'];
         $contentImagesRight              =   [];
         if (!empty($img_url)) {
@@ -665,9 +667,9 @@ class ContentController extends Controller {
  /*  End */
 
     //---------- For Ref Urls -------------------------------//
-     $ref_ids =   $this->reffUrl($data['references']);
+     $RefIds =   $this->reffUrl($data['references']);
      
-     $ref_ids_imp = implode(',',$ref_ids); 
+     $RefIdsFinal = implode(',',$RefIds); 
 
 //---------------End --------------------------------------//
 
@@ -695,15 +697,15 @@ class ContentController extends Controller {
         
         $dateTime       =   date('Y-m-d H:i:s');
        //  $updateArray['right_image_vid_url']   =   $img_url;
-        if ($pageDetails['ref_ids'] <> $ref_ids_imp)
+        if ($pageDetails['ref_ids'] <> $RefIdsFinal)
         {
-            $updateArray['ref_ids']   =   $ref_ids_imp;
+            $updateArray['ref_ids']   =   $RefIdsFinal;
             
             $logArray[]             =   [
                 'table_name'        =>  $this->contentRepository->getContentTableName(),
                 'table_column'      =>  'ref_ids',
                 'old_value'         =>  $pageDetails['ref_ids'],
-                'new_value'         =>  $ref_ids_imp,
+                'new_value'         =>  $RefIdsFinal,
                 'created_at'        =>  $dateTime,
                 'fk_admin_user_id'  =>  Auth::user()->pk_admin_user_id,
                 'value_pk'          =>  $pageDetails['pk_content_id'],
@@ -2101,25 +2103,24 @@ class ContentController extends Controller {
         $this->error                =     [];
 
         try {
-         $pre_ids =array(); 
+         $PreIds =array(); 
          
-            $this->reffUrl   =     [];
-            $refurls = explode(',',$refurls);
-            for ($i=0;$i<count($refurls);$i++) {  
-                    if(!empty($refurls[$i])){
-                    $refurlDetails   =   $this->reffurlRepository->checkIfExist($refurls[$i]);
+            $RefUrls = explode(',',$refurls);
+            for ($i=0;$i<count($RefUrls);$i++) {  
+                    if(!empty($RefUrls[$i])){
+                    $refurlDetails   =   $this->reffurlRepository->checkIfExist($RefUrls[$i]);
 
                     if ($refurlDetails > 0) {
-                    $pre_ids[] = $refurlDetails[0]['pk_ref_id'];
+                    $PreIds[] = $refurlDetails[0]['pk_ref_id'];
                     }else{ 
                     $saveRefData  =   [
-                        'ref_url'        =>  $refurls[$i],                        
+                        'ref_url'        =>  $RefUrls[$i],                        
                     ];
                     $insert = $this->reffurlRepository->saveRefUrls($saveRefData);
                     if ($insert) {
-                        $pre_ids[] = $insert;
+                        $PreIds[] = $insert;
                     }else{
-                         $this->error[]    =   $this->reffurlRepository->getError();
+                         $this->error    =   $this->reffurlRepository->getError();
                     }
 
                 }
@@ -2130,7 +2131,7 @@ class ContentController extends Controller {
             if (count($this->error)) {
                 return false;
             }
-            return  array_unique($pre_ids); 
+            return  array_unique($PreIds); 
             //return true;
         } catch (\Exception $ex) {
             $this->error[]    =   $ex->getMessage();

@@ -76,8 +76,8 @@ class ReffurlRepository extends BaseRepository {
         }
     }
     
-  public function getNameUrl($refurls)
-  {
+    public function getNameUrl($refurls)
+   {
      try {
            
             $result     =   $this->_dbUgnReffurlMaster;
