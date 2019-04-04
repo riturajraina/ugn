@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\Content\ContentRepository;
 use App\Models\User\UserRepository;
+use App\Models\Reffurl\ReffurlRepository;
 use App\Models\Tab\TabRepository;
 use App\Models\Accordion\AccordionRepository;
 
 use App\Models\Favourites\FavouritesRepository;
+
+use App\Models\Category\CategoryRepository;
 
 class ContentHelper extends ValidatorBase {
     
@@ -27,6 +30,10 @@ class ContentHelper extends ValidatorBase {
     
     protected $favouriteRepository;
     
+    protected $reffurlRepository;
+
+    protected $categoryRepository;
+    
 
     public function __construct() {
         parent::__construct();
@@ -35,6 +42,8 @@ class ContentHelper extends ValidatorBase {
         $this->tabRepository        =   new TabRepository();
         $this->accordionRepository  =   new AccordionRepository();
         $this->favouriteRepository  =   new FavouritesRepository();
+        $this->reffurlRepository    =   new ReffurlRepository();
+        $this->categoryRepository   =   new CategoryRepository();
     }
     
     public function createContentArray($pageLinkText, $status=null)
@@ -71,6 +80,8 @@ class ContentHelper extends ValidatorBase {
             
             $content["header"] ["header_title"] = str_ireplace('\"', '"', $pageDetails['title']);
             
+            $content["header"] ["page_link_text"] = $pageDetails['page_link_text'];
+            
             $content['header'] ['header_para']  = str_ireplace('\"', '"', $pageDetails['paragraph']);
             
             
@@ -89,6 +100,13 @@ class ContentHelper extends ValidatorBase {
                  }
             }
             
+
+             if (!empty($pageDetails['paragraph'])) {
+                
+                 $content['intro'] = str_ireplace('\"', '"', $pageDetails['paragraph']);                 
+                
+            }
+            
             if (!empty($pageDetails['contentImages_Mob'])) {
                 $contentImages =  stristr($pageDetails['contentImages_Mob'], ',') ? explode(',', $pageDetails['contentImages_Mob']) 
                                    : [$pageDetails['contentImages_Mob']];
@@ -102,6 +120,40 @@ class ContentHelper extends ValidatorBase {
                      $content['header'] ['header_images_mob']= $headerImages;
                  }
             }
+            
+             /***** Code for Left side image or video  *****/
+
+                $content['letfImage']   =  $pageDetails['contentImages_right'];
+                
+                $content['letfImageUrl']   =  $pageDetails['right_image_vid_url'];
+
+    /***** End Code Left side image or video  *****/
+
+    /***** Code for get Ref Url  *****/
+
+            if (!empty($pageDetails['ref_ids'])) {
+                $refUrls        =   $this->reffurlRepository->getRefList($pageDetails['ref_ids']);
+                     
+                 if (count($refUrls)) {
+                                   
+                     $content['refUrls']= $refUrls;
+                 }
+            }
+
+    /***** End Code for get Ref Url  *****/
+
+        /***** Code for get Category Name  *****/
+
+            if (!empty($pageDetails['fk_page_category_id'])) {
+                $catName        =   $this->categoryRepository->getCatName($pageDetails['fk_page_category_id']);
+
+                 if (count($catName)) {
+                                   
+                     $content['catName']= $catName[0]['category_name'];
+                 }
+            }
+
+    /***** End Code for get Category Name  *****/
             
             $searchArrayInner   =   ['fk_content_id' => $pageId];
         
@@ -144,7 +196,8 @@ class ContentHelper extends ValidatorBase {
                         return false;
                     }*/
                     
-                    if (count($accordionDetails) && is_array($accordionDetails)) {
+                   if(!empty($accordionDetails)) {
+                    if (count($accordionDetails)) {
                         
                         $j = 1;
                         
@@ -154,6 +207,7 @@ class ContentHelper extends ValidatorBase {
                             
                             $content['Tabs']['tab_' . $i]['acc_' . $j]['acc_para_text'] = str_ireplace('\"', '"', 
                                     $accRow['paragraph']);
+                            $content['Tabs']['tab_' . $i]['acc_' . $j]['show_type'] =$accRow['show_type'];
                             
                             $searchArrayInner   =   [
                                     'fk_tab_id'         =>  $accRow['fk_tab_id'], 
@@ -179,10 +233,9 @@ class ContentHelper extends ValidatorBase {
                                 
                                 $favTextArray   =   explode(' ', str_ireplace('\"', '"', substr(strip_tags($accRow['title']),
                                                             0, 41)));
+                                // changes as per new design - Anil
+                                $content['Favourites']['fav_' . $favouriteCount]['fav' . $favouriteCount . '_qn_1']  = strip_tags($accRow['title']);
                                 
-                                $content['Favourites']['fav_' . $favouriteCount]['fav' . $favouriteCount . '_qn_1']  = 
-                                        str_ireplace('\"', '"', substr(strip_tags($accRow['title']), 0, 41)) 
-                                        . "...";
                                 
                                 $content['Favourites']['fav_' . $favouriteCount]['fav' . $favouriteCount . '_text_1'] = 
                                         str_ireplace('\"', '"', substr(strip_tags($accRow['paragraph']), 0, 65)) . "...";
@@ -196,6 +249,8 @@ class ContentHelper extends ValidatorBase {
                             $j++;
                         }
                     }
+                    
+                }
                     
                     $i++;
                 }

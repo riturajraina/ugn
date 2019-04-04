@@ -1,0 +1,108 @@
+.bg-theme{
+	background-color: #ea1e63 !important;
+}
+#splash{
+	background-color: #3f51b5!important;
+}
+.bg-primary{
+    background-color: #3f51b5!important;
+	}
+
+.scrollmenu_serve ul li.active{
+	border-bottom: 4px solid #ea1e63;
+}
+
+.scrollmenu_serve{
+	    background-color: #3f51b5;
+}
+.scrollmenu_serve ul li{
+	border-bottom: 4px solid #3f51b5;
+    border-right: 1px solid #126ed2;
+}
+
+#sidebar .sidebar-header{
+	background: #3f51b5;
+}
+
+.bdr-bottom{
+	    border-bottom: 4px solid #ea1e63;
+}
+
+.btn-primary {
+    background-color: #3f51b5 !important;
+	
+}
+
+.radio label input[type=radio]:checked~.bmd-radio:before, label.radio-inline input[type=radio]:checked~.bmd-radio:before{
+	background-color: #3f51b5;
+}
+
+.radio label input[type=radio]:checked~.bmd-radio:after, label.radio-inline input[type=radio]:checked~.bmd-radio:after {
+    border-color: #3f51b5;
+}
+
+.is-focused [class*=" bmd-label"], .is-focused [class^=bmd-label]{color:#3f51b5;}
+
+.custom-file-control, .form-control, .is-focused .custom-file-control, .is-focused .form-control {
+    background-image: linear-gradient(0deg,#3f51b5 2px,rgba(63,81,181,0) 0),linear-gradient(0deg,rgba(0,0,0,.36) 1px,transparent 0);
+}
+
+.oss-score .score-count{
+	background: #ea1e63;
+}
+
+.oss-score .score-label{
+	    color: #3f51b5;
+}
+
+.checkbox label input[type=checkbox]:checked+.checkbox-decorator .check, label.checkbox-inline input[type=checkbox]:checked+.checkbox-decorator .check {
+	    color: #3f51b5;
+    border-color: #3f51b5;
+	
+	}
+.checkbox label input[type=checkbox]:checked+.checkbox-decorator .check:before, label.checkbox-inline input[type=checkbox]:checked+.checkbox-decorator .check:before{
+	 color: #3f51b5;
+}
+
+.range-slider .pmd-range-slider .noUi-handle:before{
+	background: #3f51b5;
+}
+
+.product-details .card-header .btn.btn-link{
+	background-color: #3f51b5;
+}
+
+.scrollable ul li.active{
+	box-shadow: inset 0 -7px 0px -4px #3f51b5!important;
+}
+.scrollmenu{
+	background-color: #3f51b5;
+}
+.scrollmenu ul li{
+	border-bottom: 4px solid #3f51b5;
+}
+.scrollmenu ul li.active{
+	border-bottom: 4px solid #ea1e63;
+}
+.theme-bg{
+	background: -webkit-linear-gradient(left, #3f51b5, #3f51b5, #3f51b5, #3f51b5);
+    background: linear-gradient(to right, #3f51b5, #3f51b5, #3f51b5, #3f51b5);
+}
+
+.card-login>.panel-heading .register{
+	background: #ea1e63;
+}
+.card-login>.panel-heading{
+	background: #ea1e63;
+}
+
+.text-primary {
+    color: #3f51b5 !important;
+}
+
+.text-secondary {
+    color: #ea1e63 !important;
+}
+.text-red {
+    color: #ea1e63 !important;
+}

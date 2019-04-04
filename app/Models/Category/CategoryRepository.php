@@ -112,6 +112,7 @@ class CategoryRepository extends BaseRepository {
             $this->_dbUgnPageCategoryMaster->updated_at         =   $dateTime;
             $this->_dbUgnPageCategoryMaster->fk_admin_user_id   =   $data['fk_admin_user_id'];
             $this->_dbUgnPageCategoryMaster->display_order      =   $data['display_order'];
+            $this->_dbUgnPageCategoryMaster->category_image     =   $data['category_image'];
             $this->_dbUgnPageCategoryMaster->status             =   $data['status'];
             
             if (!$this->_dbUgnPageCategoryMaster->save()) {
@@ -157,6 +158,7 @@ class CategoryRepository extends BaseRepository {
                 $result->orderBy($data['orderBy']['column'], $data['orderBy']['order']);
             }
             
+            
             if (!empty($data['api_call'])) {
                 $result =   $result->get()->toArray();
             } else {
@@ -201,4 +203,38 @@ class CategoryRepository extends BaseRepository {
             return false;
         }
     }
+
+
+
+     public function getCatName($catId)
+    {
+       try {
+          
+            $result     =   $this->_dbUgnPageCategoryMaster;
+           
+           
+            $result 	=   $result->where('pk_page_category_id' , $catId);
+           
+            
+            $result     =   $result->get()->toArray();
+              
+            $count      =   count($result);
+            
+            if (!$count) {
+                return '-1';
+            }
+            
+            if ($count > 0) {
+                         
+                return $result;
+            } 
+            
+                      
+        } catch (\Exception $ex) {
+            $this->setError('Category id not exists', $ex);
+            return false;
+        }
+    }
+
+
 }

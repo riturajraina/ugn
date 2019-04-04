@@ -14,6 +14,8 @@ use App\Helpers\RightsConstantsManager;
 
 use App\Models\Category\CategoryRepository;
 
+use App\Models\Image\ImageRepository;
+
 class CategoryController extends Controller {
 
     protected $changeLogRepository;
@@ -21,6 +23,8 @@ class CategoryController extends Controller {
     protected $categoryRepository;
     
     protected $userRepository;
+    
+    protected $imageRepository;
     
     /**
      * Create a new controller instance.
@@ -33,6 +37,7 @@ class CategoryController extends Controller {
         $this->changeLogRepository  =   new ChangeLogRepository();
         $this->categoryRepository   =   new CategoryRepository();
         $this->userRepository       =   new UserRepository();
+        $this->imageRepository          =   new ImageRepository();
     }
     
     public function createCategory(Request $request)
@@ -49,6 +54,7 @@ class CategoryController extends Controller {
             'category'      =>  'required|max:100',
             'status'        =>  'required',
             'displayOrder'  =>  'required',
+            'categoryImage' =>  'required',
         ];
         
         $validator      = Validator::make($data, $validatorArray);
@@ -57,10 +63,35 @@ class CategoryController extends Controller {
             return redirect('/createcategory')->withInput()->withErrors($validator);
         }
         
+         if($_FILES['categoryImage']['name'][0] != '') {           
+          
+ 
+            if (!$this->uploadImage(1, 'categoryImage','category_img')) {
+                 $error          =   is_array($this->error) ? $this->error : [$this->error];
+                
+            }        
+        
+        }
+
+        $categoryImg = '';
+        if (!empty($this->uploadedImages)) {
+
+            $categoryImg = $this->uploadedImages;
+            $categoryImg  =  implode(',',$categoryImg);
+          
+        }
+
+         if(!empty($error)){
+            
+             return redirect('/createCategory')->withInput()->withErrors($error);
+        }
+
+              
         $createData =   [
             'category_name'     =>  $data['category'],
             'fk_admin_user_id'  =>  Auth::user()->pk_admin_user_id,
             'display_order'     =>  $data['displayOrder'],
+            'category_image'    =>  $categoryImg,
             'status'            =>  $data['status'],
         ];
         
@@ -156,6 +187,8 @@ class CategoryController extends Controller {
             return redirect($this->getErrorUrl(env('INSUFFICIENTRIGHTSMESSAGE')));
         }
         
+    	$error	=	[];
+        
         $data   =   $request->all();
         
         $validatorArray =   [
@@ -169,6 +202,33 @@ class CategoryController extends Controller {
         if ($validator->fails()) {
             return redirect('/editcategory/' . $data['categoryId'])->withInput()->withErrors($validator);
         }
+        
+
+         if(isset($_FILES['categoryImage']['name'][0]) && $_FILES['categoryImage']['name'][0] != '') {           
+          
+ 
+            if (!$this->uploadImage(1, 'categoryImage','category_img')) {
+                 $error[]          =   is_array($this->error) ? $this->error : [$this->error];
+                
+            }        
+        
+        }
+
+        $categoryImg = '';
+        if (!empty($this->uploadedImages)) {
+            
+            $categoryImg = $this->uploadedImages;
+            $categoryImg  =  implode(',',$categoryImg);
+        } else {
+            
+            $categoryImg = $data['category_pre_img'];
+        }
+
+         if(!empty($error)){
+            
+             return redirect('/editcategory/' . $data['categoryId'])->withInput()->withErrors($error);
+        }
+
         
         $categorySearchArray    =   [
             'searchArray'       =>   ['pk_page_category_id' => $data['categoryId']],
@@ -189,6 +249,20 @@ class CategoryController extends Controller {
         $logArray           =   [];
         
         $dateTime           =   date('Y-m-d H:i:s');
+        
+        if ($categoryDetails['category_image'] <> $categoryImg) {
+            $updateArray['category_image']   =   $categoryImg;
+            
+            $logArray[]     =   [
+                'table_name'        =>  $this->categoryRepository->getTableName(),
+                'table_column'      =>  'category_name',
+                'old_value'         =>  $categoryDetails['category_image'],
+                'new_value'         =>  $categoryImg,
+                'value_pk'          =>  $data['categoryId'],
+                'created_at'        =>  $dateTime,
+                'fk_admin_user_id'  =>  Auth::user()->pk_admin_user_id,
+            ];
+        }
         
         if ($categoryDetails['category_name'] <> $data['category']) {
             $updateArray['category_name']   =   $data['category'];
@@ -278,6 +352,9 @@ class CategoryController extends Controller {
         $displayOrder       =   !empty(Input::old('displayOrder')) ? Input::old('displayOrder') 
                                 : $categoryDetails['display_order'];
         
+        $categoryImage       =   !empty(Input::old('categoryImage')) ? Input::old('categoryImage') 
+                                : $categoryDetails['category_image'];
+        
         $status             =   !empty(Input::old('status')) ? Input::old('status') : $categoryDetails['status']; 
         
         $displayOrderList   =   $this->categoryRepository->getDisplayOrderList();
@@ -292,6 +369,7 @@ class CategoryController extends Controller {
             'categoryId'            =>  $categoryId,
             'categoryName'          =>  $categoryName,
             'displayOrder'          =>  $displayOrder,
+            'categoryImage'         =>  $categoryImage, 
             'status'                =>  $status,
             'selectOptionsManager'  =>  $this->selectOptionsManager,
             'displayOrderList'      =>  $displayOrderList,

@@ -95,6 +95,12 @@ class DateValidator extends ValidatorBase {
         }
 
         $format = strtoupper($format);
+        
+        $hours      =   !empty($timeArray['0']) ? $timeArray['0'] : 0;
+        
+        $minutes    =   !empty($timeArray['1']) ? $timeArray['1'] : 0;
+        
+        $seconds    =   !empty($timeArray['2']) ? $timeArray['2'] : 0;
 
         switch ($format) {
             case 'YMDHIS' :
@@ -102,7 +108,7 @@ class DateValidator extends ValidatorBase {
                     $this->error = 'Invalid date';
                     return false;
                 }
-                return mktime($timeArray['0'], $timeArray['1'], $timeArray['2'], $dateArray['1'], $dateArray['2'], 
+                return mktime($hours, $minutes, $seconds, $dateArray['1'], $dateArray['2'], 
                         $dateArray['0']);
 
             case 'MDYHIS' :
@@ -110,7 +116,7 @@ class DateValidator extends ValidatorBase {
                     $this->error = 'Invalid date';
                     return false;
                 }
-                return mktime($$timeArray['0'], $timeArray['1'], $timeArray['2'], $dateArray['0'], $dateArray['1'], 
+                return mktime($$hours, $minutes, $seconds, $dateArray['0'], $dateArray['1'], 
                         $dateArray['2']);
 
             case 'MYDHIS' :
@@ -118,8 +124,37 @@ class DateValidator extends ValidatorBase {
                     $this->error = 'Invalid date';
                     return false;
                 }
-                return mktime($$timeArray['0'], $timeArray['1'], $timeArray['2'], $dateArray['0'], $dateArray['2'], 
+                return mktime($hours, $minutes, $seconds, $dateArray['0'], $dateArray['2'], 
                         $dateArray['1']);
         }
+    }
+    
+    public function getMonthText($month)
+    {
+        $monthTextArray =   [
+            '1' =>  'Jan',
+            '01'=>  'Jan',    
+            '2' =>  'Feb',
+            '02' =>  'Feb',
+            '3' =>  'Mar',
+            '03' =>  'Mar',
+            '4' =>  'Apr',
+            '04' =>  'Apr',
+            '5' =>  'May',
+            '05' =>  'May',
+            '6' =>  'Jun',
+            '06' =>  'Jun',
+            '7' =>  'July',
+            '07' =>  'July',
+            '8' =>  'Aug',
+            '08' =>  'Aug',
+            '9' =>  'Sep',
+            '09' =>  'Sep',
+            '10'=>  'Oct',
+            '11'=>  'Nov',
+            '12'=>  'Dec',
+        ];
+        
+        return $monthTextArray[$month];
     }
 }

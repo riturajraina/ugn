@@ -32,7 +32,7 @@ class ContentRepository extends BaseRepository {
             global  $globalData;
             
             $globalData =   $data;
-            
+            if (!empty($data['title']) || !empty($data['page_link_text'])) {
             $result     =   $result->where (
                     
                                 function ($query) {
@@ -65,6 +65,7 @@ class ContentRepository extends BaseRepository {
                             
             $result     =   $result->get(['title', 'page_link_text'])->toArray();
             
+            if(!empty($result)) {
             if (count($result) && is_array($result)) {
                 
                 foreach ($result as $row) {
@@ -86,6 +87,9 @@ class ContentRepository extends BaseRepository {
                 }
             }
             
+            }
+            return true;
+            }
             return true;
             
         } catch (\Exception $ex) {
@@ -137,7 +141,11 @@ class ContentRepository extends BaseRepository {
             $this->_dbUgnContentMaster->title               =   $data['title'];
             $this->_dbUgnContentMaster->contentImages       =   $data['contentImages'];
             $this->_dbUgnContentMaster->contentImages_Mob   =   $data['contentImages_Mob'];
+            $this->_dbUgnContentMaster->contentImages_right =   $data['contentImages_right'];
+            $this->_dbUgnContentMaster->contentImages_Mob_right =   $data['contentImages_Mob_right'];
+            $this->_dbUgnContentMaster->right_image_vid_url =   $data['right_image_vid_url'];
             $this->_dbUgnContentMaster->paragraph           =   $data['paragraph'];
+            $this->_dbUgnContentMaster->ref_ids             =   $data['ref_ids'];
             $this->_dbUgnContentMaster->fk_admin_user_id    =   $data['fk_admin_user_id'];
             $this->_dbUgnContentMaster->status              =   $data['status'];
             $this->_dbUgnContentMaster->created_at          =   $dateTime;

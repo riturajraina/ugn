@@ -30,31 +30,25 @@
         
 
         <!-- All CSS CDN -->
-        <link href="/mobile/css/import.css" rel="stylesheet">
-        <!-- Our Custom CSS for remove -->
+        <!--<link href="/mobile/css/import.css" rel="stylesheet">
+        
         <link href="/mobile/css/header_tab.css" rel="stylesheet">
         <link href="/mobile/css/nick.css" rel="stylesheet">
         <link href="/mobile/css/jeet.css" rel="stylesheet">
         <link href="/mobile/css/sandeep.css" rel="stylesheet">
         <link href="/mobile/css/login.css" rel="stylesheet">
         <link href="/mobile/css/circle.css" rel="stylesheet">
+        <link href="/mobile/css/nick.css" rel="stylesheet">
+        -->
+        
+        <link href="/mobile/css/style.css" rel="stylesheet">
         <link href="/mobile/css/theme.css" rel="stylesheet">
 
         <link href="/mobile/css/dummy.css" rel="stylesheet">
-
-        <script src="/mobile/js/jquery.min.js"></script>
-       
-        <script src="/mobile/js/popper.min.js"></script>
-        <script src="/mobile/js/bootstrap-material-design.js"></script>
-        <script src="/mobile/js/line.js"></script> 
-        <script src="/mobile/js/slick.min.js"></script>
+        
         
 
-
-        <script src="/mobile/js/jquery.nicescroll.min.js"></script>
-        <script src="/mobile/js/wNumb.js"></script>
-        <script src="/mobile/js/nouislider.js"></script>
-        <script src="/mobile/js/script.js"></script>
+       
         
        
        
@@ -68,18 +62,41 @@
                 <div class="container-fluid d-flex justify-content-start align-items-center p-0">
 
                     <div>
-                        <button onclick="javascript:history.go(-1);" type="button" class="btn btn-info navbar-btn mb-0 d-flex justify-content-start align-items-center height54 px-2">
+                        <?php
+                            $historyJs = 'javascript:' . (!empty($backButtonUrl)
+                                          ? 'window.location.href=\'' . $backButtonUrl . '\';' 
+                                          : 'history.go(-1);');
+                        ?>
+                        <button onclick="<?php echo $historyJs;?>" 
+                        type="button" 
+                        class="btn btn-info navbar-btn mb-0 d-flex justify-content-start align-items-center height54 px-2">
                             <img src="/images/left-arrow-white.svg" alt=""/>
                         </button>
                     </div>
 
                     <div>
-                        <button onclick="location.href = 'https://design.mysabkuch.com/oss_v5/index.php';" type="button" 
+                        <button onclick="location.href = '/home/';" type="button" 
                         class="btn btn-info navbar-btn mb-0 d-flex justify-content-start align-items-center height54 text-white px-2" > <i class="fa fa-home fa-2x"></i>
                         </button>
                     </div>
+
+                    <?php 
+                    $headerTitle = '';
+                    if(isset($content['header']['page_link_text']))
+                    {
+                        $headerTitle = $content['header']['page_link_text'];
+                    }
+                    ?>
                     
-                    <a href="https://design.mysabkuch.com/oss_v5/index.php"><h1 class="text-left">ONE STOP SHOP</h1></a>
+                    <a href="<?php echo !empty($headerTextLink) ? $headerTextLink : 'https://design.mysabkuch.com/oss_v5/index.php';?>"><h5 class="text-left"><?php echo $headerTitle;?></h5>
+                        <!-- <div class="text-left">
+                            <?php 
+                                echo !empty($masterHeaderText) 
+                                     ? $masterHeaderText 
+                                     : '<img class="img-fluid p-2" src="/images/osslogo.png">';
+                            ?>
+                        </div> -->
+                    </a>
 
                     <div class="ml-auto">
                         <a href="/msearch" class="btn btn-info navbar-btn mb-0 height54 d-flex align-items-center">
@@ -94,7 +111,7 @@
         </div>
 
         <!--till here header-->
-        <div class="pdt54 ugn-wrapper ugn_home">
+        <div class="pdt54">
             @yield('content')
         </div>
         <!--from here footer-->
@@ -144,8 +161,22 @@
 
         </script>
         
+        <script src="/mobile/js/jquery.min.js"></script>
+       
+        <script src="/mobile/js/popper.min.js"></script>
+        <script src="/mobile/js/bootstrap-material-design.js"></script>
+        <script src="/mobile/js/line.js"></script> 
+        <script src="/mobile/js/slick.min.js"></script>
+        
+
+
+        <script src="/mobile/js/jquery.nicescroll.min.js"></script>
+        <script src="/mobile/js/wNumb.js"></script>
+        <script src="/mobile/js/nouislider.js"></script>
+        <script src="/mobile/js/script.js"></script>
+        
         <script src="/mobile/js/modernizr.js"></script>
-        <script src="/mobile/js/gijgo.min.js" type="text/javascript"></script>
+        <!-- <script src="/mobile/js/gijgo.min.js" type="text/javascript"></script> -->
         <script src="/mobile/js/snackbar.min.js"></script>
     </body>
 

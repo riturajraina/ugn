@@ -1,0 +1,392 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i');
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url(../fonts/glyphicons-halflings-regular.eot);
+    src: url(../fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), 
+		url(../fonts/glyphicons-halflings-regular.woff2) format('woff2'), 
+		url(../fonts/glyphicons-halflings-regular.woff) format('woff'), 
+		url(../fonts/glyphicons-halflings-regular.ttf) format('truetype'), 
+		url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+}
+/* YOUR CUSTOM STYLES */
+body {
+    background-color: #f3f1f1;
+    font-family: 'Roboto', sans-serif;
+	margin:0;
+	padding:0;
+	color: #000;
+	font-size: 0.83rem;
+}
+h1, h2, h3, h4, h5, h6, ul, li, p{margin:0;	padding:0; line-height: normal; }
+
+a, a:hover, a:focus {color: inherit; text-decoration: none; transition: all 0.3s;}
+
+h1{font-size: 24px;}
+h2{font-size: 22px;}
+h3{font-size: 20px;}
+h4{font-size: 18px;}
+h5{font-size: 16px;}
+h6{font-size: 14px;}
+
+
+/* ---------------------------------------------------
+    common CSS
+----------------------------------------------------- */
+
+::-webkit-input-placeholder { font-size: 0.85rem !important;}
+::-moz-placeholder { font-size: 0.85rem !important;}
+:-ms-input-placeholder{ font-size: 0.85rem !important;}
+::placeholder { font-size: 0.85rem !important;}
+
+.rotate{transform: rotate(270deg) scaleX(-1);}
+.height54{height:42px;}
+.lh-18{ line-height:18px;}
+.pdt54{padding-top:54px;}
+.section-space54{padding-top: 42px; padding-bottom: 42px;}
+.nopadding{padding-left:0; padding-right: 0;}
+.w-70{width:70% !important;}
+
+.bg-theme{background: #ff8901;}
+
+
+/* ---------------------------------------------------
+    overwright bootstrap
+----------------------------------------------------- */
+.form-control{font-size: inherit;}
+.bg-primary{background-color: #007bff !important;}
+.btn-primary{background-color: #007bff !important; color: #fff !important; border-color: transparent !important;}
+.page-item.active .page-link{background-color: #007bff; border-color: #007bff;}
+.text-primary{color:#007bff !important; }
+a.text-primary:focus, a.text-primary:hover{color:#007bff !important; }
+
+.bmd-form-group .checkbox label, .bmd-form-group .radio label, .bmd-form-group label{font-size:0.85rem;}
+
+.radio label input[type=radio]:checked~.bmd-radio:after, label.radio-inline input[type=radio]:checked~.bmd-radio:after{border-color: #007bff;}
+.radio label input[type=radio]:checked~.bmd-radio:before, label.radio-inline input[type=radio]:checked~.bmd-radio:before{background-color: #007bff;}
+.checkbox-inline, .checkbox label, .is-focused .checkbox-inline, .is-focused .checkbox label, .is-focused .radio-inline, .is-focused .radio label, .is-focused .switch label, .radio-inline, .radio label, .switch label{color: rgba(0,0,0,.87);}
+.checkbox label input[type=checkbox]:checked+.checkbox-decorator .check, label.checkbox-inline input[type=checkbox]:checked+.checkbox-decorator .check{color: #007bff;
+    border-color: #007bff;}
+.checkbox label input[type=checkbox]:checked+.checkbox-decorator .check:before, label.checkbox-inline input[type=checkbox]:checked+.checkbox-decorator .check:before{color: #007bff;}
+.nav-pills .nav-link, .nav-tabs .nav-link{padding: 0.6em .8575em; }
+
+
+
+/*18-april-2018-BMD*/
+ .custom-file-control, .form-control, .is-focused .custom-file-control, .is-focused .form-control{    background-image: linear-gradient(0deg,#007bff 2px,rgba(0,150,136,0) 0),linear-gradient(0deg,rgba(0,0,0,.36) 1px,transparent 0)}
+.custom-file-control, .form-control{color:#212121; padding-right:6px;}
+[class*=" bmd-label"], [class^=bmd-label]{color:#80858a;}
+.is-focused [class*=" bmd-label"], .is-focused [class^=bmd-label]{color:#007bff;}
+
+.badge{font-weight:400; line-height: 1.5;}
+
+/*---------------
+Section BG with shadow
+-----------------*/
+
+.bg-section {
+    box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1), inset 0.5px 0.866px 0px 0px rgba(246,246,246,0.004);
+    background-color: #fff;
+}
+
+.theme-bg{    
+	width: 100%;
+    background: -webkit-linear-gradient(left, #2856b6, #2856b6, #2856b6, #2856b6);
+    background: linear-gradient(to right, #2856b6, #2856b6, #2856b6, #2856b6);
+    background-size: 600% 100%;
+    -webkit-animation: HeroBG 20s ease infinite;
+    animation: HeroBG 20s ease infinite;
+}
+
+/* ---------------------------------------------------
+    FIXED FOOTER
+----------------------------------------------------- */
+
+.fxdftr-list{}
+.fxdftr-list .nav-pills .nav-link, .fxdftr-list .nav-tabs .nav-link{font-size:0.7rem; font-weight: 400; padding: 3px 0 5px 0;}
+
+
+/* ---------------------------------------------------
+    Home Grid section
+----------------------------------------------------- */
+
+.grid-menu_item {float: left; width: 25%; padding: 8px 4px; border-right: 1px solid #f2f3f5; border-bottom: 1px solid #f2f3f5; color: #111; background:#fff; text-align: center;}
+.grid-menu_item img{width: 48px; height: 48px;}
+
+
+/* ---------------------------------------------------
+    Trending Page
+----------------------------------------------------- */
+
+.prod_wrap{
+	overflow: hidden;
+}
+
+.prod_scroll{
+    background-color: #fff;
+    overflow-y: hidden;
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
+.prod_scroll a:hover {
+    background-color:#eae7e7;
+}
+
+.prod_list {}
+.prod_list li{background: #fff;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display: inline-block;
+    list-style-type: none;
+    padding: 8px 8px 12px 8px;
+    text-align: center;
+    white-space: normal;
+    width: 45%;
+    position: relative;
+    vertical-align: top;
+    border-right: 1px solid #f2f3f5;
+    border-top: 1px solid #f2f3f5;
+}
+.prod_list li a{}
+
+.prod_item_img img{
+	display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: 22px;
+}
+
+.prod_item_name{
+	display: block;
+    font-size: 13px;
+    color: #757575;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-top: 15px;
+    margin-bottom: 6px;
+}
+.prod_old_price {
+    color: #757575;
+    font-size: 13px;
+    position: relative;
+    text-decoration: line-through;
+    margin-right: 7px;
+    display: inline-block;
+}
+.prod_new_price {
+    color: #212121;
+    font-size: 14px;
+    position: relative;
+    display: inline-block;
+    font-weight: 500;
+}
+.prod_discount-tag {
+    color: #ff8901;
+    font-size: 14px;
+    font-weight: 500;
+    display: block;
+    margin-top: 6px;
+}
+
+/* ---------------------------------------------------
+    Offer Page
+----------------------------------------------------- */
+
+.scrollmenu {
+    background-color: #007bff;
+    overflow-y: hidden;
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
+.scrollmenu ul{}
+.scrollmenu ul li{
+	list-style:none; 
+	display: inline-block;
+	width: 30%;
+	border-bottom: 4px solid #007bff;
+	border-right: 1px solid #126ed2;
+}
+
+.scrollmenu a{
+	color: white;
+    text-align: center;
+    padding: 10px 0 7px 0;
+    text-decoration: none;
+	display: block;
+}
+.scrollmenu ul li.active{
+    color: #fff;
+    border-bottom: 4px solid #ff8901;
+}
+
+
+
+/* ---------------------------------------------------
+    service filter
+----------------------------------------------------- */
+.shift{}
+.shift ul{margin: 0; padding: 0;}
+.shift ul li:first-child{border-left: 1px solid #e9ecef;}
+.shift ul li{flex: 1 auto; border: 1px solid #e9ecef; border-left: none; float: left; list-style: none; width: 25%; text-align: center; cursor: pointer; padding: 5px; transition: .3s box-shadow ease, .3s transform ease; transform: translateY(0); }
+.shift ul li:hover{transform: translateY(-.2rem); box-shadow: 0px 3px 0px 0px #ff8901 inset;}
+.shift ul li.active{box-shadow: 0px 3px 0px 0px #ff8901 inset;}
+
+#service-filters .card-header[aria-expanded="false"]:before, 
+#service-filters .card-header[aria-expanded="true"]:before {content: '\e259'; display: block; position: absolute; right: 15px; font-family: 'Glyphicons Halflings'; font-size: 0.8em; top: 17px;}
+#service-filters .card-header[aria-expanded="true"]::before { content: '\e260';}
+
+#service-filters .card{border-width:0 0 1px 0;}
+#service-filters .card-header{border:none;}
+#service-filters .bmd-form-group .checkbox label,#service-filters .bmd-form-group .radio label,#service-filters .bmd-form-group label{font-size:0.9rem;}
+#service-filters .list-group li{margin-bottom: 0.2rem;}
+
+
+/* ---------------------------------------------------
+    Service forms
+----------------------------------------------------- */
+
+
+.service-form .map-icon{position: absolute; right: 2px; bottom: 8px; font-size:18px; color: #80858a;}
+.service-form .bmd-form-group{margin-top:-10px;}
+.service-form .form-control{font-size:0.85rem;}
+.replace{font-size:.875rem;}
+
+/* ---------------------------------------------------
+			service scroll menu 
+----------------------------------------------------- */
+
+.scrollmenu_serve {
+    background-color: #007bff;
+    overflow-y: hidden;
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
+.scrollmenu_serve ul{}
+.scrollmenu_serve ul li{
+	list-style:none; 
+	display: inline-block;
+	width: 30%;
+	border-bottom: 4px solid #007bff;
+	border-right: 1px solid #126ed2;
+}
+
+.scrollmenu_serve a{
+	color: white;
+    text-align: center;
+    padding: 10px 0 7px 0;
+    text-decoration: none;
+	display: block;
+}
+.scrollmenu_serve ul li.active{
+    color: #fff;
+    border-bottom: 4px solid #ff8901;
+}
+
+
+
+
+
+/* ---------------------------------------------------
+    flight-list-inner.php
+----------------------------------------------------- */
+
+
+.alerts .bmd-form-group{padding-top: 0.5rem;}
+.flight-timeing-list ul{display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin: 0; padding: 0;}
+.flight-timeing-list ul li{list-style: none;flex: 1 auto; }
+.flight-timeing-list p{margin-bottom: 0; line-height: 18px;}
+
+.scrollable{overflow-y: hidden; white-space: nowrap; overflow-x: scroll;}
+.scrollable ul{}
+.scrollable ul li{list-style:none; display: table-cell; text-align: center; padding: 10px 15px; border-right: 1px solid #e3e5e8; width: 24%;}
+.scrollable ul li a{color:#000;}
+.scrollable ul li.active{color: #007bff; box-shadow: inset 0 -7px 0px -4px #007bff;}
+
+
+
+/* ---------------------------------------------------
+	            flight-details
+	----------------------------------------------------- */
+
+.flight-compare{}
+.flight-compare .bmd-form-group{padding-top: 0;}
+.flight-compare .radio label .bmd-radio, .bus-compare label.radio-inline .bmd-radio{top: -6px;}
+
+
+/* ---------------------------------------------------
+    Cab page
+----------------------------------------------------- */
+
+/*.cab-form{ position:absolute; top: 0; width: 100%; padding: 0 15px 15px 15px;}
+.cab-panel{}
+.cab-panel li{flex: 1 auto;}
+.cab-panel .nav-pills .nav-link{ border-radius:0; background: #f2f2f2; text-align: center;}
+.cab-panel .nav-pills .nav-link.active, .cab-panel .show>.nav-pills .nav-link{background:#007bff; color:#fff;}
+*/
+.compare-table{}
+.compare-table table{}
+.compare-table table tr{}
+.compare-table table td, .compare-table table th{padding: .5rem .9rem; vertical-align: middle;}
+
+
+/* ---------------------------------------------------
+    Bus page
+----------------------------------------------------- */
+
+
+.icon-bus{
+background-image:url(../img/icon-bus.png);
+background-repeat:no-repeat;
+background-size:contain;
+background-position:center;
+width: 40px;
+height: 14px;
+display: inline-block;
+}
+
+
+
+
+
+
+
+
+.inline-list{border-bottom:1px dashed #e9ecef;}
+.inline-list ul{display: inline-flex; }
+.inline-list ul li{padding: 0 30px 0 0; list-style: square;}
+.inline-list ul li:first-child{list-style: none;}
+.border-dashed{border-bottom:1px dashed #e9ecef;}
+
+
+/* ---------------------------------------------------
+    mobile_intermediate.php
+----------------------------------------------------- */
+
+.mobile_inter_scroll{overflow-y: hidden; white-space: nowrap; overflow-x: scroll;}
+.mobile_inter_scroll ul{}
+.mobile_inter_scroll ul li{list-style:none; display: table-cell; text-align: center; padding: 10px 15px; width: 24%;}
+.mobile_inter_scroll ul li a{color:#000;}
+.mobile_inter_scroll ul li.active{color: #007bff; box-shadow: inset 0 -7px 0px -4px #007bff;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

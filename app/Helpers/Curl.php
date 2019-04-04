@@ -64,7 +64,8 @@ class Curl {
             $this->error = 'Curl Error. Please contact administrator';
             if (env('APP_DEBUG'))
             {
-                $this->error = 'Unable to execute curl due to this error : ' . $ex->getMessage() 
+                $this->error = 'From Curl Execute function - Unable to execute '
+                        . 'curl due to this error : ' . $ex->getMessage() 
                         . ', Please contact administrator.';
             }
             return false;
@@ -416,155 +417,183 @@ class Curl {
         );
     }
     
-    /*public function multiExecute($multiCurlArray, $logArray=array(), $fileDownloadPathArray=null)
-    {
-        $urlCount       = count ($multiCurlArray);
-
-        $curl_arr	= array();
-
-        $master		= curl_multi_init();
-        
-        $resultArray    = [];
-        
-        for ($i = 0; $i < $urlCount; $i++) {
-            
-            if (!isset($multiCurlArray[$i][CURLOPT_URL])) {
-                $i++;
-                continue;
-            }
-            
-            if ($i % $this->maxParallelConnections == 0 && $i > 0) {
-                do {
-                    curl_multi_exec($master, $running);
-                } while($running > 0);
-
-                $startCount      =   $i - $this->maxParallelConnections;
-                
-                for ($j = $startCount; $j < $i; $j++) {
-                    
-                    //$resultArray[$j] = curl_multi_getcontent ($curl_arr[$j]);
-                    
-                    $curlResult = curl_multi_getcontent ($curl_arr[$j]);
-                    
-                    if ($curlResult) {
-                        if (!empty($fileDownloadPathArray[$multiCurlArray[$j][CURLOPT_URL]])) {
-                            if (!file_put_contents($fileDownloadPathArray[$multiCurlArray[$j][CURLOPT_URL]], $curlResult)) {
-                                $this->error = 'Unable to save result at path : ' 
-                                        . $fileDownloadPathArray[$multiCurlArray[$j][CURLOPT_URL]];
-                                return false;
-                            }
-                        }
-                        
-                        if (!empty($logArray[$multiCurlArray[$j][CURLOPT_URL]])) {
-                            $logArray[$multiCurlArray[$j][CURLOPT_URL]] = true;
-                        } 
-                    }
-                    
-                    $resultArray[$multiCurlArray[$j][CURLOPT_URL]] = $curlResult;
-                }
-
-                curl_multi_close($master);
-                
-                $master		= curl_multi_init();
-            }
-            
-            //$curl_arr[$i]	=   curl_init($multiCurlArray[$i][CURLOPT_URL]);
-            $curl_arr[$i]	=   curl_init();
-            
-            foreach ($multiCurlArray[$i] as $key => $value) {
-                curl_setopt($curl_arr[$i], $key, $value);
-            }
-            
-           
-            
-            curl_multi_add_handle($master, $curl_arr[$i]);
-        }
-        
-        //echo '<br>Result array : <pre>' . print_r($resultArray, true) . '</pre>';exit;
-        
-        if (count($resultArray)) {
-            //return $resultArray;
-            return [
-                'resultArray'           =>  $resultArray,
-                'logArray'              =>  $logArray, 
-                'fileDownloadPathArray' => $fileDownloadPathArray,
-            ];
-        }
-        
-        $this->error = 'No response returned from multi curl URLs';
-        
-        return false;
-    }*/
+   
     
-    public function multiExecute($multiCurlArray)
+    public function multiExecute($multiCurlArray, $indexArray=[])
     {
-        $urlCount       = count ($multiCurlArray);
+        try {
+            $urlCount           = count ($multiCurlArray);
 
-        $curl_arr	= array();
+            $curl_arr           = array();
 
-        $master		= curl_multi_init();
-        
-        //echo "results: ";
-        $resultArray    = [];
-        
-        for ($i = 0; $i < $urlCount; $i++) {
-            
-            if (!isset($multiCurlArray[$i][CURLOPT_URL])) {
-                $i++;
-                continue;
-            }
-            
-            /*if ($i % $this->maxParallelConnections == 0 && $i > 0) {
-                do {
-                    curl_multi_exec($master, $running);
-                } while($running > 0);
+            $master		= curl_multi_init();
 
-                $startCount         =   $i - $this->maxParallelConnections;
-                
-                for($j = $startCount; $j < $i; $j++)
-                {
-                    $resultArray[$j] = curl_multi_getcontent ($curl_arr[$j]);
-                    //echo( $i . "\n" . $results . "\n");
+            //echo "results: ";
+            $resultArray    = [];
+
+            for ($i = 0; $i < $urlCount; $i++) {
+
+                if (!isset($multiCurlArray[$i][CURLOPT_URL])) {
+                    $i++;
+                    continue;
                 }
 
-                curl_multi_close($master);
-                //break;
-                
-                $master		= curl_multi_init();
-            }*/
-            
-            //$curl_arr[$i]	=   curl_init($multiCurlArray[$i][CURLOPT_URL]);
-            $curl_arr[$i]	=   curl_init();
-            
-            foreach ($multiCurlArray[$i] as $key => $value) {
-                curl_setopt($curl_arr[$i], $key, $value);
+                /*if ($i % $this->maxParallelConnections == 0 && $i > 0) {
+                    do {
+                        curl_multi_exec($master, $running);
+                    } while($running > 0);
+
+                    $startCount         =   $i - $this->maxParallelConnections;
+
+                    for($j = $startCount; $j < $i; $j++)
+                    {
+                        $resultArray[$j] = curl_multi_getcontent ($curl_arr[$j]);
+                        //echo( $i . "\n" . $results . "\n");
+                    }
+
+                    curl_multi_close($master);
+                    //break;
+
+                    $master		= curl_multi_init();
+                }*/
+
+                //$curl_arr[$i]	=   curl_init($multiCurlArray[$i][CURLOPT_URL]);
+                $curl_arr[$i]	=   curl_init();
+
+                foreach ($multiCurlArray[$i] as $key => $value) {
+                    curl_setopt($curl_arr[$i], $key, $value);
+                }
+                //$resultUrlArray[$i] =   $multiCurlArray[$i];
+                /*curl_setopt($curl_arr[$i], CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl_arr[$i], CURLOPT_USERAGENT, $userAgent);*/
+                curl_multi_add_handle($master, $curl_arr[$i]);
             }
-            //$resultUrlArray[$i] =   $multiCurlArray[$i];
-            /*curl_setopt($curl_arr[$i], CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl_arr[$i], CURLOPT_USERAGENT, $userAgent);*/
-            curl_multi_add_handle($master, $curl_arr[$i]);
-        }
-        
-        do {
-            curl_multi_exec($master, $running);
-        } while($running > 0);
+            
+            do {
+                curl_multi_exec($master, $running);
+            } while($running > 0);
 
-        for ($i = 0; $i < $urlCount; $i++)
-        {
-            $resultArray[$i] = curl_multi_getcontent ($curl_arr[$i]);
-            //echo( $i . "\n" . $results . "\n");
-        }
+            for ($i = 0; $i < $urlCount; $i++)
+            {
+                if (count($indexArray)) {
+                    if (!empty($indexArray[$i])) {
+                        $resultArray[$indexArray[$i]] = curl_multi_getcontent ($curl_arr[$i]);
+                    } else {
+                        $resultArray[$i] = curl_multi_getcontent ($curl_arr[$i]);
+                    }
+                } else {
+                    $resultArray[$i] = curl_multi_getcontent ($curl_arr[$i]);
+                }
+                //echo( $i . "\n" . $results . "\n");
+            }
+            
+            curl_multi_close($master);
 
-        curl_multi_close($master);
-        
-        //echo '<br>Result array : <pre>' . print_r($resultArray, true) . '</pre>';exit;
-        
-        if (count($resultArray)) {
-            return $resultArray;
+            //echo '<br>Result array : <pre>' . print_r($resultArray, true) . '</pre>';exit;
+
+            if (count($resultArray)) {
+                return $resultArray;
+            }
+
+            $this->error = 'No response returned from multi curl URLs';
+
+            return false; 
+        } catch (\Exception $ex) {
+            $this->error = 'Curl Error. Please contact administrator';
+            
+            if (env('APP_DEBUG'))
+            {
+                $this->error = 'Unable to execute multi curl due to this error '
+                        . ': ' . $ex->getMessage() 
+                        . ', Please contact administrator.';
+            }
+            return false;
         }
         
-        $this->error = 'No response returned from multi curl URLs';
+    }
+    
+    public function getCurlData($url, $postData=[], $curlOptions=[]) 
+    {
+       
         
-        return false;
+        try {
+        
+            $curlArray = array
+                        (
+                            CURLOPT_URL => $url,
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_PROXY => null,
+                        );
+
+            if (stristr($url, 'https')) {
+                $curlArray[CURLOPT_SSL_VERIFYPEER] = false;
+                $curlArray[CURLOPT_SSL_VERIFYHOST] = false; 
+            }
+            
+            if (is_array($postData) && count($postData)) {
+                
+                $curlArray[CURLOPT_POST] = 1;
+                
+                $postString = '';
+                
+                foreach ($postData as $key => $value) {
+                    $postString .= empty($postString) ? $key . '=' . $value : '&' . $key . '=' . $value;
+                }
+                
+                $curlArray[CURLOPT_POSTFIELDS] = $postString;
+                //echo '<br>Curl post used';
+            }
+            
+            if (!empty($postData) && !is_array($postData)) {
+                $curlArray[CURLOPT_POST] = 1;
+                
+                $curlArray[CURLOPT_POSTFIELDS] = $postData;
+                //echo '<br>From inside if';
+            }
+            
+            if (count($curlOptions)) {
+             
+                foreach ($curlArray as $curlOption=>$curlValue) {
+                    if (array_key_exists($curlOption, $curlOptions)) {
+                        unset($curlOptions[$curlOption]);
+                    }
+                }
+                
+                $diffArray = array_diff(array_keys(array_change_key_case($curlOptions, CASE_UPPER)), 
+                    $this->curlOptionsArray);
+
+                if (count($diffArray)) {
+                    $this->error = 'Invalid curl options : ' . implode(',', $diffArray);
+                    return false;
+                }
+                
+                foreach ($curlOptions as $option => $value) {
+                    $curlArray[$option] = $value;
+                }
+            }
+            
+            //file_put_contents('d:\\flightcurl\curldata_' . date('Y-m-d_H_i_s') . '.txt', $url . "\n" . print_r($curlArray, true));
+            
+            $result = $this->execute($curlArray);
+
+            if ($result) {
+                return $result;
+            }
+            
+            $this->error = $this->getError();
+            
+            return false;
+            
+        } catch (\Exception $ex) {
+            
+            $this->error = 'Curl Error. Please contact administrator';
+            
+            if (env('APP_DEBUG'))
+            {
+                $this->error = 'Unable to execute curl due to this error : ' . $ex->getMessage() 
+                        . ', Please contact administrator.';
+            }
+            return false;
+        }
     }
 }

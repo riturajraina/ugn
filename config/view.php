@@ -15,6 +15,11 @@ return [
 
     'paths' => [
         realpath(base_path('resources/views')),
+		realpath(base_path('resources/views/service')),
+		realpath(base_path('resources/views/service/flights')),
+		realpath(base_path('resources/views/service/hotels')),
+		realpath(base_path('resources/views/service/cabs')),
+		realpath(base_path('resources/views/mobile_views')),
     ],
 
     /*

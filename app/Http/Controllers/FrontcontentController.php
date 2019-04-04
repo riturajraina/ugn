@@ -103,10 +103,10 @@ class FrontcontentController extends Controller {
                 return redirect($this->getErrorUrl($this->searchLogRepository->getError()));
             }
             
-            $view   =   'display';
+            $view   =   'display_new';
             
             if ($isMobileDevice) {
-                $view = 'display_mob';
+                $view = 'display_new_mob';
             }
             
             return view($view, ['content' => $contentArray]);

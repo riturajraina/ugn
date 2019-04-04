@@ -10,7 +10,7 @@
                     <strong>Create New Category</strong>
                 </div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/createcategory') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/createcategory') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         
                         <div class="form-group{{ $errors->has('category') ? ' has-error' : '' }}">
@@ -45,6 +45,20 @@
                                 @if ($errors->has('displayOrder'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('displayOrder') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                          <div class="form-group{{ $errors->has('categoryImage') ? ' has-error' : '' }}">
+                            <label for="categoryImage" class="col-md-4 control-label">Upload Images </label>
+                            
+                            <div class="col-md-6">
+                                <input type="file" name="categoryImage">
+
+                                @if ($errors->has('categoryImage'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('categoryImage') }}</strong>
                                 </span>
                                 @endif
                             </div>

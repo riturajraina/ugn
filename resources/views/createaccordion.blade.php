@@ -61,6 +61,16 @@
                                     <strong>{{ $errors->first('accordionTitle') }}</strong>
                                 </span>
                                 @endif
+
+                                
+                            </div>
+                        </div>
+
+                         <div class="form-group">
+                            <label for="hideAccordion" class="col-md-3 control-label">Hide Accordion Title</label>
+
+                            <div class="col-md-1">
+                             <input id="hideAccordion" type="checkbox" class="form-control" name="hideAccordion" value="1">
                             </div>
                         </div>
                         

@@ -8,7 +8,7 @@ $('.collapse').on('shown.bs.collapse', function(e) {
 });
 
 
-$(document).ready(function() { $('body').bootstrapMaterialDesign(); });
+//$(document).ready(function() { $('body').bootstrapMaterialDesign(); });
 
 
 

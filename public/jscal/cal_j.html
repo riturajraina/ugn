@@ -1,0 +1,286 @@
+<script language="javascript" type = "text/javascript">
+
+    function getMonthOrYear(type = "month")
+    {
+        type = type === undefined ? "month" : type;
+
+        var dt = new Date();
+
+        var currentYear = dt.getFullYear();
+
+        var startIndex = 0;
+
+        var endIndex = 11;
+
+        var returnArray = {};
+
+        var i = 0;
+
+        if (type.toLowerCase() == 'year') {
+            startIndex = currentYear - 5;
+            endIndex = currentYear + 5;
+
+            for (i = startIndex; i <= endIndex; i++) {
+                returnArray[i] = i;
+            }
+        } else {
+
+            var monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+
+            for (i = startIndex; i <= endIndex; i++) {
+                dt = new Date(currentYear, i, 1);
+                returnArray[i] = monthNames[i];
+            }
+        }
+
+        return returnArray;
+    }
+
+    function getSelectOptions(optionsArray, selectedValue = null)
+    {
+        var optionsHtml = '';
+
+        selectedValue = selectedValue === undefined ? null : selectedValue;
+
+        var selected = null;
+
+        for (var i in optionsArray) {
+            if (selectedValue === undefined)
+            {
+                optionsHtml += '<option value="' + i + '" >' + optionsArray[i] + '</option>';
+            } else {
+                selected = selectedValue == i ? "selected" : null;
+
+                optionsHtml += '<option value="' + i + '" ' + selected + '>' + optionsArray[i] + '</option>';
+            }
+
+        }
+
+        return optionsHtml;
+    }
+
+    function printOnChange()
+    {
+        var monthSelectBox = document.getElementById("month");
+
+        var yearSelectBox = document.getElementById("year");
+
+        month = monthSelectBox.options[monthSelectBox.selectedIndex].value;
+
+        year = yearSelectBox.options[yearSelectBox.selectedIndex].value;
+
+        document.getElementById('calendarDiv').innerHTML = "";
+
+        document.getElementById('calendarDiv').innerHTML = printCalendar(month, year);
+    }
+
+    function printCalendar(month, year)
+    {
+        var html = "<table cellspacing=\"0\" cellpadding=\"4\" border=\"1\" style=\"position:relative;border-collapse:collapse;z-index: 99999999;\" rules=\"all\"><tr><td colspan=\"7\" align=\"center\" >";
+
+        var monthArray = getMonthOrYear();
+
+        var yearArray = getMonthOrYear("year");
+
+        var monthsHtml = getSelectOptions(monthArray, month);
+
+        var yearsHtml = getSelectOptions(yearArray, year);
+
+        /**
+         var e = document.getElementById("ddlViewBy");
+         var strUser = e.options[e.selectedIndex].value;
+         **/
+
+        html += "<strong>Month</strong> : <select name=\"month\" id=\"month\" onchange=\"javascript:printOnChange();\">" + monthsHtml + "</select> <strong>Year</strong> : ";
+
+        html += "<select name=\"year\" id=\"year\" onchange=\"javascript:printOnChange();\">" + yearsHtml + "</select>";
+
+        html += "</td></td></tr>";
+
+        var weekArray = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+        var length = weekArray.length;
+
+        var i = 0;
+
+        html += "<tr style=\"background-color:blue;\">";
+
+        for (i = 0; i < length; i++)
+        {
+            html += "<td align=\"center\"><strong>" + weekArray[i] + "</strong></td>";
+        }
+
+        html += "</tr>";
+
+        var dateString = year + "-" + month + "-" + "1";
+
+        var dt = new Date(year, month, 1);
+
+        var firstDay = dt.getDay();
+
+        for (i = 0; i < firstDay; i++)
+        {
+            html += "<td>&nbsp;</td>";
+        }
+
+        /*
+         var endOfMonth = new Date(year, (month+1), 0).getDate();
+         The code above was giving severe incorrect results as
+         if we are using (month+1), then instead of adding two numbers,
+         it was just concatenating it, for ex : 0 + 1 was becoming 01
+         & 01 + 1 was becoming 011...Rituraj 2/18/2019
+         
+         */
+
+        var nextMonth = Number(month) + Number(1);
+
+        var endOfMonth = new Date(year, nextMonth, 0).getDate();
+
+        var noOfTds = 0;
+
+        var weekDay = 0;
+
+        var currentDate = new Date().getDate();
+
+        var currentMonth = new Date().getMonth();
+
+        var currentYear = new Date().getFullYear();
+
+        var selectedDateStyle = "";
+
+        for (i = 1; i <= endOfMonth; i++)
+        {
+            weekDay = new Date(year, month, i).getDay();
+
+            if (weekDay == 0)
+            {
+                html += "</tr><tr>";
+                noOfTds = 0;
+            }
+
+            selectedDateStyle = currentDate == i && currentMonth == month && currentYear == year ? 'style="background-color:green;"' : '';
+
+            html += "<td align=\"center\"" + selectedDateStyle + ">" + i + "</td>";
+
+            noOfTds++;
+        }
+
+        if (noOfTds)
+        {
+            html += "<td colspan=\"" + (7 - noOfTds) + "\">&nbsp;</td>";
+        }
+
+        html += "<tr></table>";
+
+        //document.write(html);
+        return html;
+    }
+
+
+    function rendorCalendar(elementId)
+    {
+        var element = document.getElementById(elementId);
+
+
+        var dat = new Date();
+
+        var calHtml = printCalendar(dat.getMonth(), dat.getFullYear());
+
+        var calendarDivId = document.getElementById("calendarDiv");
+
+        calendarDivId.innerHTML = calHtml;
+
+        var container = document.getElementById('calendarContainer');
+
+
+
+        var cords = getScreenCordinates(element);
+
+        //alert("cords.y : " + parseInt(cords.y) + ", offsetheight : " + container.offsetHeight);
+
+        container.style.top = parseInt(cords.y) - parseInt(container.offsetHeight);
+
+        //container.style.top = Number(cords.y);
+
+        container.style.left = cords.x;
+
+        //alert("top : " + container.style.top + ", Left : " + container.style.left);
+
+        //alert("offset height : " + Number(container.offsetHeight));
+    }
+
+
+    function getScreenCordinates(obj) {
+        var p = {};
+        p.x = obj.offsetLeft;
+        p.y = obj.offsetTop;
+        while (obj.offsetParent) {
+            p.x = p.x + obj.offsetParent.offsetLeft;
+            p.y = p.y + obj.offsetParent.offsetTop;
+            if (obj == document.getElementsByTagName("body")[0]) {
+                break;
+            } else {
+                obj = obj.offsetParent;
+            }
+        }
+        return p;
+    }
+
+    function callCalendar(elementId)
+    {
+        var element = document.getElementById(elementId);
+        alert("Called, element : " + element);
+        element.onClick = function (elementId) {
+            alert("Called 2");
+            rendorCalendar(elementId);
+            alert("Called 3");
+        };
+    }
+    
+    function hideCalendar()
+    {
+        var calendarDivId = document.getElementById("calendarDiv");
+
+        calendarDivId.innerHTML = "";
+
+        var container = document.getElementById('calendarContainer');
+        
+        container.style.display = "none";
+    }
+
+    /*function offset(el) {
+     var rect = el.getBoundingClientRect(),
+     scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+     scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+     return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+     }
+     
+     // example use
+     var div = document.querySelector('div');
+     var divOffset = offset(div);
+     console.log(divOffset.left, divOffset.top);*/
+
+</script>
+<div   tabindex="0" onblur="javascript:alert('called on blur');">
+<table width="20%" align="center" 
+    style="position:absolute;border-collapse:collapse;z-index: 999999999;" 
+    border="0" cellspacing="0" cellpadding="0" id="calendarContainer" 
+>
+    <tr>
+        <td width="100%" align="center" id="calendarDiv" style="z-index: 999999999;">
+        </td>
+    </tr>
+</table>	
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<a href="javascript:void(0);" id="spanId" onclick="javascript:rendorCalendar('spanId');">
+    Click Here
+</a>
+<br><br><br><br><br>
+<a href="javascript:void(0);" id="spanId_1" onclick="javascript:rendorCalendar('spanId_1');">
+    Click Here
+</a>

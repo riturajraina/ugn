@@ -85,6 +85,35 @@ return [
             'engine'		=> null,
         ],
 
+		'hotels_db_mysql' => [
+            'driver'		=> 'mysql',
+            'host'			=> '127.0.0.1',
+            'port'			=> '3306',
+			'database'		=> 'hotels',
+            'username'		=> 'root',
+            'password'		=> '',
+            'charset'		=> 'utf8',
+            'collation'		=> 'utf8_unicode_ci',
+            'prefix'		=> '',
+            'strict'		=> false,
+            'engine'		=> null,
+        ],
+
+		'cabs_db_mysql' => [
+            'driver'		=> 'mysql',
+            'host'			=> '127.0.0.1',
+            'port'			=> '3306',
+			'database'		=> 'cabs',
+            'username'		=> 'root',
+            'password'		=> '',
+            'charset'		=> 'utf8',
+            'collation'		=> 'utf8_unicode_ci',
+            'prefix'		=> '',
+            'strict'		=> false,
+            'engine'		=> null,
+        ],
+
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),
@@ -138,3 +167,4 @@ return [
     ],
 
 ];
+

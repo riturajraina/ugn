@@ -66,6 +66,15 @@
                                 @endif
                             </div>
                         </div>
+
+
+                         <div class="form-group">
+                            <label for="hideAccordion" class="col-md-3 control-label">Hide Accordion Title</label>
+
+                            <div class="col-md-1">
+                             <input id="hideAccordion" type="checkbox" class="form-control" name="hideAccordion" value="1" <?php if($accordionDetails['show_type'] == 1){ echo 'checked';}?>>
+                            </div>
+                        </div>
                         
                         <div class="form-group{{ $errors->has('paragraph') ? ' has-error' : '' }}">
                             <label for="paragraph" class="col-md-3 control-label">Paragraph</label>

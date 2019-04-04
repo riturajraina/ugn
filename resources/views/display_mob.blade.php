@@ -2,6 +2,7 @@
 
 @section('content')
 <!--main container-->
+<div class="ugn-wrapper ugn_home">
 <div class="text-center">
     <?php
         if (!empty($content['header']['header_images_mob']) 
@@ -175,6 +176,10 @@ if (!empty($content['Favourites'])) {
             echo $favouriteHtml . '</div>';
     }
 }
+
+?>
+</div>
+<?php
 
 if (!empty($favouriteCount)) {
 		

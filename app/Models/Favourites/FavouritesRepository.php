@@ -48,7 +48,7 @@ class FavouritesRepository extends BaseRepository {
             
             $dateTime   =   date('Y-m-d H:i:s');
             
-            if (count($result) && is_array($result)) {
+            if (@count($result) && is_array($result)) {
                 
                 $result =   $result['0'];
                 

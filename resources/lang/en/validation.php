@@ -144,6 +144,18 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        /********From here flight search form field attributes*********/
+        'way'               =>  'Trip Type',
+        'sourceCity'        =>  'Departure City',
+        'destinationCity'   =>  'Destination City',
+        'departureDate'     =>  'Departure Date',
+        'arrivalDate'       =>  'Arrival Date',
+        'adults'            =>  'Adult Passenter',
+        'children'          =>  'Children',
+        'infants'           =>  'Infants',
+        'seatingClass'      =>  'Seating class',
+        /********Till here flight search form field attributes*********/
+    ],
 
 ];

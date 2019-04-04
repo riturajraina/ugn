@@ -152,10 +152,20 @@
                                     </td>
                                     
                                     <td>
+                                        <?php $ext = pathinfo($row['image_name'], PATHINFO_EXTENSION); 
+                                        if($ext == 'pdf') {
+                                        ?>
+                                        <a href="<?php echo env('UGNIMAGEURLPATH') . '/ugn_pdf/' . $row['image_name'];?>" 
+                                           target="_blank" title="Click here to view this image">
+                                            <strong><?php echo $row['image_name'];?></strong>
+                                        </a>
+
+                                    <?php } else { ?>
                                         <a href="<?php echo env('UGNIMAGEURLPATH') . '/' . $row['image_name'];?>" 
                                            target="_blank" title="Click here to view this image">
                                             <strong><?php echo $row['image_name'];?></strong>
                                         </a>
+                                    <?php } ?>
                                     </td>
                                     
                                     <td>

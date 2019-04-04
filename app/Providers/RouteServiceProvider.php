@@ -16,7 +16,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'App\Http\Controllers';
 
-	protected $serviceNamespace = '';
+	protected $serviceNamespace = 'App\Http\Controllers\Service';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -41,7 +41,19 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+		$this->mapServiceRoutes();
+
         //
+    }
+
+	protected function mapServiceRoutes()
+    {
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $this->serviceNamespace,
+        ], function ($router) {
+            require base_path('routes/service.php');
+        });
     }
 
     /**

@@ -51,6 +51,8 @@ Route::get('/display/{pagelinktext}', 'FrontcontentController@showPageContent');
 
 Route::get('/generateugnheader', 'ContentController@createUgnDynamicHeader');
 
+Route::get('/createUgnDynamicCategory', 'ContentController@createUgnDynamicCategory');
+
 Route::post('/editcategory', 'CategoryController@editCategory');
 
 Route::get('/editcategory/{categoryid}', 'CategoryController@editCategoryForm');
@@ -133,7 +135,9 @@ Route::post('/viewusers', 'UserController@showUsers');
 
 Route::get('/viewusers', 'UserController@showUsers');
 
-Route::get('/home', 'HomeController@home');
+//Route::get('/home', 'HomeFrontController@home'); Previous
+
+Route::get('/home', 'HomeFrontController@home'); // Changed by ANil
 
 Route::get('/', 'HomeController@home');
 
@@ -180,6 +184,9 @@ Route::get('/api/location', 'ApiController@getLocationList');
 Route::get('/captcha/{random}', 'CaptchaController@index');
 
 Route::get('/captcha', 'CaptchaController@index');
+
+Route::get('/categorycontent/{categoryid}', 'HomeFrontController@showCategoryContent');
+Route::get('/All-Category', 'HomeFrontController@showAllCategory');
 
 /*Route::group(
         ['middleware' => ['web']], function () {

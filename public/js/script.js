@@ -1,3 +1,13 @@
+
+/***ugn-to show hide content***/
+$('.collapse').on('shown.bs.collapse', function(e) {
+  var $card = $(this).closest('.card');
+  $('html,body').animate({
+    scrollTop: $card.offset().top - 90
+  }, 400);
+});
+
+
 /**search dropdown starts**/
 var x, i, j, selElmnt, a, b, c;
 /*look for any elements with the class "custom-select":*/
@@ -71,6 +81,7 @@ function closeAllSelect(elmnt) {
 /*if the user clicks anywhere outside the select box,
 then close all select boxes:*/
 document.addEventListener("click", closeAllSelect);
+
 /**search dropdown end**/
 
 
@@ -100,6 +111,14 @@ $(document).ready(function() { $('body').bootstrapMaterialDesign(); });
         dots: false,
         infinite: true,
         slidesToShow: 5,
+        slidesToScroll: 1,
+      });
+
+/***home page product slider***/
+      $(".mobile_intermediate").slick({
+        dots: false,
+        infinite: false,
+        slidesToShow: 7,
         slidesToScroll: 1,
       });
 
@@ -143,7 +162,6 @@ $(function () {
 
 
 
-
 $("#sidebar").niceScroll({
 		cursorcolor: '#53619d',
 		cursorwidth: 4,
@@ -161,6 +179,8 @@ $("#sidebar").niceScroll({
 		$('.collapse.in').toggleClass('in');
 		$('a[aria-expanded=true]').attr('aria-expanded', 'false');
 	});
+
+
 
 
 
@@ -230,21 +250,32 @@ $(document).ready(function(){
     });
 	
 	
-	//accordion-ugn -jit
+$('.most-popular a').on('click', function(){
+    $('a.text-red').removeClass('text-red');
+    $(this).addClass('text-red');
+});
+	
+//accordion-ugn-will -jit
+	
     
     $('#qs-1 a').on('click', function(event){
+	  
         $('#my-tabs .et_pb_tab_1 a').click();
 		$('#accordion #headingFive a').click();
         $("html, body").animate({ scrollTop: $('#my-tabs').offset().top }, 1000);
+	  
 	});
 	
 	$('#qs-2 a').on('click', function(event){
+		 
         $('#my-tabs .et_pb_tab_2 a').click();
 		$('#accordion2 #pw-headingSix a').click();
         $("html, body").animate({ scrollTop: $('#my-tabs').offset().top }, 1000);
+		
 	});
 	
 	$('#qs-3 a').on('click', function(event){
+		
         $('#my-tabs .et_pb_tab_4 a').click();
 		$('#accordion4 #wlfq-headingThirteen a').click();
         $("html, body").animate({ scrollTop: $('#my-tabs').offset().top }, 1000);
@@ -327,6 +358,7 @@ $(document).ready(function(){
         $('#my-tabs-property .property_pb_tab_2 a').click();
 		$('#property-accordion2 #property_acr_2_heading_6 a').click();
         $("html, body").animate({ scrollTop: $('#my-tabs-property').offset().top }, 1000);
+		  
 		
 	});
 	

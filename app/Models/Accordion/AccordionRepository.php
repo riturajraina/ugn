@@ -88,6 +88,7 @@ class AccordionRepository extends BaseRepository {
             $this->_dbUgnAccordionMaster->paragraph         =   $data['paragraph'];
             $this->_dbUgnAccordionMaster->fk_admin_user_id  =   $data['fk_admin_user_id'];
             $this->_dbUgnAccordionMaster->status            =   $data['status'];
+            $this->_dbUgnAccordionMaster->show_type         =   $data['show_type'];
             $this->_dbUgnAccordionMaster->created_at        =   $dateTime;
             $this->_dbUgnAccordionMaster->updated_at        =   $dateTime;
             

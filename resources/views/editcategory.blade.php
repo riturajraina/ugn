@@ -10,7 +10,7 @@
                     <strong>Edit Category</strong>
                 </div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/editcategory') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/editcategory') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <input type="hidden" name="categoryId" value="<?php echo $categoryId;?>">
                         <div class="form-group{{ $errors->has('category') ? ' has-error' : '' }}">
@@ -45,6 +45,31 @@
                                 </span>
                                 @endif
                             </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('categoryImage') ? ' has-error' : '' }}">
+                            <label for="categoryImage" class="col-md-4 control-label">Upload Images </label>
+                            
+                            <div class="col-md-6">
+                                <input type="file" name="categoryImage">
+
+                                @if ($errors->has('categoryImage'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('categoryImage') }}</strong>
+                                </span>
+                                @endif
+                            </div> 
+                        </div>
+
+                     <div class="form-group{{ $errors->has('categoryImage') ? ' has-error' : '' }}">
+                            <label for="categoryImage" class="col-md-4 control-label"> </label>
+
+                              <div class="col-md-6">
+                             <input id="category" type="text" class="form-control" name="category_pre_img" 
+                                       value="<?php echo $categoryImage;?>"
+                                        >
+                            </div>
+
                         </div>
                         
 

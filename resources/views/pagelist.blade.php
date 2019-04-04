@@ -129,7 +129,7 @@
                                     </td>
                                     <td style="text-align: center;">
                                         <?php
-                                            $row['title']   = urlencode($row['title']);
+                                            $row['title']   = urlencode(strip_tags($row['title']));
                                         ?>
                                         
                                         <a href="/createtab/<?php echo $row['pk_content_id'];?>/<?php echo $row['title'];?>" 

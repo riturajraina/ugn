@@ -51,7 +51,7 @@
                             </button>
 
                             <div class="logo">
-                                <h2><b><a href="index.php">ONE STOP SHOP </a></b></h2>
+                                <h2><b><a href="/home">ONE STOP SHOP </a></b></h2>
                             </div>
                         </div>
                         <div class="col-sm-6 text-right text-secondry">
@@ -488,18 +488,18 @@
         
         
         <script src="/js/modernizr.js"></script>
-        <script src="/js/gijgo.min.js" type="text/javascript"></script>
+       <!--  <script src="/js/gijgo.min.js" type="text/javascript"></script> -->
 
 
         <script>
                     /***Date calender***/
-
+/*
                     $('#datepicker').datepicker({
                         showOtherMonths: true
                     });
                     $('#datepicker1').datepicker({
                         showOtherMonths: true
-                    });
+                    });*/
 
                     /***back to top***/
 

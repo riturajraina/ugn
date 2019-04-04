@@ -238,15 +238,69 @@ class Controller extends BaseController
         return env('APP_URL') . '/success/' . base64_encode($message);
     }
     
-    public function uploadImage($imageCount, $imageFieldName = 'pageImage') 
+    public function uploadImage($imageCount, $imageFieldName = 'pageImage', $folderPath=NULL) 
     {
+
         $this->error                =     [];
         //echo '<br>Image count: ' . $imageCount;exit;
         //echo '<br>Fil array : <pre>' . print_r($_FILES, true) . '</pre>';exit;
         
         try {
         
+            
+            $fieldname  =  '';
+            
+            if ($imageFieldName   ==  'pageImage') {
+                $fieldname   =   'Upload New Images';
+            } elseif($imageFieldName   ==   'pageImageMobile'){
+                $fieldname   =  'Upload Images (Mobile)';
+            }
+            elseif ($imageFieldName   ==  'pageImageRight') {
+                $fieldname   =  'Upload Images for Redirecting ';
+            }
+            elseif ($imageFieldName   ==  'pageImageMobileRight') {
+                $fieldname   =  'Upload Images Right Side (Mobile)';
+            }
+            elseif($imageFieldName   ==  'pageImageRight'){
+                $fieldname   =  'Upload Images for Redirecting ';
+            }else {
+                $fieldname   =  $imageFieldName;
+            }
+        
             $this->uploadedImages   =     [];
+
+          // echo '<br>Image array before updation : <pre>' . $_FILES . '</PRE>';
+          // exit;
+                     
+          if(!is_array($_FILES[$imageFieldName]['tmp_name'])) {
+          if ($imageCount == 1 ) {
+                $imageArray = [];
+              
+                $imageArray['tmp_name']['0']    =  $_FILES[$imageFieldName]['tmp_name'];
+               
+                unset($_FILES[$imageFieldName]['tmp_name']);
+               
+                
+                $imageArray['type']['0']    =   $_FILES[$imageFieldName]['type'];
+                
+                unset($_FILES[$imageFieldName]['type']);
+                
+                
+                $imageArray['size']['0']    =   $_FILES[$imageFieldName]['size'];
+                
+                unset($_FILES[$imageFieldName]['size']);
+                
+                $imageArray['name']['0']  =  $_FILES[$imageFieldName]['name'];
+                
+                unset($_FILES[$imageFieldName]['name']);
+               
+                
+                $_FILES[$imageFieldName]    =   $imageArray;
+               
+                //echo '<br>Image array before updation : <pre>' . $_FILES . '</PRE>';EXIT;
+            }
+            
+          }
 
             for ($i=0;$i<$imageCount;$i++) {
 
@@ -260,13 +314,13 @@ class Controller extends BaseController
 
                     if (!(
                             stristr($type, 'image/jpeg') || stristr($type, 'image/png') || stristr($type, 'image/jpeg')
-                           || stristr($type, 'image/gif')
+                           || stristr($type, 'image/gif') || stristr($type, 'application/pdf')
                     )) {
                         $this->error[] = 'File '. $imageName . ' is not an image';
                         continue;
 
                     } elseif ($size > 2000000) {
-                        $this->error[]    =   'Image size for image . ' . $imageName .' is greater than 2 MB';
+                        $this->error[]    =   'Image size for image . ' . $imageName .' is greater than 2 MB in feild <strong> '.$fieldname.'</strong>.';
                         continue;
                     }
 
@@ -274,8 +328,9 @@ class Controller extends BaseController
 
                     $imageUrl       =   env('UGNIMAGEURLPATH') . $imageName;
 
-                    if (count($imageDetails) && is_array($imageDetails)) {
-                        $this->error[] = 'The image <strong>' . $imageName . '</strong> already exist. '
+                    if(!empty($imageDetails)) {
+                    if (count($imageDetails)) {
+                      $this->error[] = 'The image <strong>' . $imageName . '</strong> already exist, in feild <strong> '.$fieldname.'</strong>.'
                                 . 'Please <a href="' . $imageUrl . '" target="_blank">'
                                 . '<strong>click here</strong></a> to view this image & if its the same image you want to upload,'
                                 . ' then please dont upload the image and simply put the '
@@ -284,8 +339,21 @@ class Controller extends BaseController
                         continue;
                     }
 
+                    }
+
+                    if($type == 'application/pdf') {
+
+                         $imageDestinationPath   =   env('UGNIMAGEPATH') . env('FILEPATHSEPARATOR') .'ugn_pdf/'. $imageName;
+                    }elseif(!empty($folderPath)) {
+
+                        $imageDestinationPath   =   env('UGNIMAGEPATH') . env('FILEPATHSEPARATOR') . $folderPath . env('FILEPATHSEPARATOR') . $imageName;
+
+                        // echo '<br>$imageDestinationPath : ' . $imageDestinationPath; exit;
+                    }else{
 
                     $imageDestinationPath   =   env('UGNIMAGEPATH') . env('FILEPATHSEPARATOR') . $imageName;
+                    }
+                   
                     //echo '<br>$imageDestinationPath : ' . $imageDestinationPath; exit;
 
                     if (!move_uploaded_file($_FILES[$imageFieldName]['tmp_name'][$i], $imageDestinationPath)) {
@@ -318,83 +386,22 @@ class Controller extends BaseController
             $this->error[]    =   $ex->getMessage();
             return false;
         }
-        
-        /**
-         * file :
-
-            Array
-            (
-                [pageImage] => Array
-                    (
-                        [name] => WhatsApp Image 2018-07-31 at 13.33.15.jpeg
-                        [type] => image/jpeg
-                        [tmp_name] => D:\xampp\tmp\phpE392.tmp
-                        [error] => 0
-                        [size] => 157698
-                    )
-
-            )
-
-         * 
-         */
-        
     }
-
+    
+        
     public function getCurlData($url, $postData=null) 
     {
-        try {
-            $curl = new Curl();
+        $curl = new Curl();
         
-            $curlArray = array
-                        (
-                        CURLOPT_URL => $url,
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_PROXY => null,
-                    );
+        $result = $curl->getCurlData($url, $postData);
 
-            if (stristr($url, 'https')) {
-                $curlArray[CURLOPT_SSL_VERIFYPEER] = false;
-                $curlArray[CURLOPT_SSL_VERIFYHOST] = false; 
-            }
-            
-            if (is_array($postData) && count($postData)) {
-                $curlArray[CURLOPT_POST] = 1;
-                
-                $postString = '';
-                
-                foreach ($postData as $key => $value) {
-                    $postString .= empty($postString) ? $key . '=' . $value : '&' . $key . '=' . $value;
-                }
-                
-                $curlArray[CURLOPT_POSTFIELDS] = $postString;
-                //echo '<br>Curl post used';
-            }
-            
-            if (!empty($postData) && !is_array($postData)) {
-                $curlArray[CURLOPT_POST] = 1;
-                
-                $curlArray[CURLOPT_POSTFIELDS] = $postData;
-                //echo '<br>From inside if';
-            }
-            
-            $result = $curl->execute($curlArray);
-
-            if ($result) {
-                return $result;
-            }
-            
-            $this->error = $curl->getError();
-            
-            return false;
-        } catch (\Exception $ex) {
-            $this->error = 'Curl Error. Please contact administrator';
-            if (env('APP_DEBUG'))
-            {
-                $this->error = 'Unable to execute curl due to this error : ' . $ex->getMessage() 
-                        . ', Please contact administrator.';
-            }
-            return false;
+        if ($result) {
+            return $result;
         }
+
+        $this->error = $curl->getError();
+
+        return false;
     }
     
     public function getFrontErrorUrl($errorMessage)
@@ -429,4 +436,19 @@ class Controller extends BaseController
         }
         return 'http';
     }
+
+    public function checkValidUrl($url)
+    {
+        
+         $vaildUrl   =   $this->generalHelper->checkIfValidUrl($url);
+         if($vaildUrl) {
+             return true;
+         } else {
+             $this->error = 'Please use http or https with url right side';
+             return false;
+         }
+       
+    }
+
+   
 }
