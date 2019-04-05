@@ -948,6 +948,8 @@ class ContentController extends Controller {
         $data           =   ['searchArray' => ['pk_content_id' => $pageId], 'api_call' => 1];
         
         $pageDetails    =   $this->contentRepository->getPageList($data);
+
+
         
         if (!count($pageDetails)) {
             return redirect($this->getErrorUrl('Page details not found'));
@@ -993,7 +995,9 @@ class ContentController extends Controller {
         
         if(!empty($pageDetails['ref_ids'])){
 
-            $refurlDetails   =   $this->reffurlRepository->getUrlDetailsFromIds($pageDetails['ref_ids']);
+            $refurlDetails   =   $this->reffurlRepository->getNameUrl($pageDetails['ref_ids']);
+
+            
           
           	if(!empty($refurlDetails))
             {

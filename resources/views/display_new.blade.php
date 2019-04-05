@@ -265,13 +265,13 @@
              $refurlCount   = count($content['refUrls']);
              $refurlValue   = $content['refUrls'];             
 
-             for ($k=0;$k < $refurlCount; $k++) { 
-              $pos = strpos('[', $refurlValue[$k]['ref_url']);
+              for ($k=0;$k < $refurlCount; $k++) { 
+         /*     $pos = strpos('[', $refurlValue[$k]['ref_url']);
               if ($pos === false) {
                 $openUrl[1]        = $refurlValue[$k]['ref_url'];
-              }else{
+              }else{*/
               $openUrl        = explode(']',$refurlValue[$k]['ref_url']);
-              }
+            //  }
               ?>
       <li class="mb-3"><a href="<?php echo trim($openUrl[1]);?>" target=__blank>
         <?php echo $refurlValue[$k]['ref_url'];?></a></li>

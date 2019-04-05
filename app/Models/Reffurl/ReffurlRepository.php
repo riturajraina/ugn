@@ -69,16 +69,39 @@ class ReffurlRepository extends BaseRepository {
             return false;
         }
     }
+
+     public function getNameUrl($refurls)
+   {
+     try {
+           
+            $refIds   =      explode(',',$refurls);
+            $result     =   $this->_dbUgnReffurlMaster;
+           
+           $result =   $result->select('ref_url');
+           // $result =   $result->where(['pk_ref_id' => $refurls]);
+            $result =   $result->whereIn('pk_ref_id' , $refIds);
+            
+            $result     =   $result->get()->toArray();
+              
+           
+             return $result;
+         
+             
+        } catch (\Exception $ex) {
+            $this->setError('check if Url already exist', $ex);
+            return false;
+        }
+  }
     
    public function getUrlDetailsFromIds($refurlsIds)
    {
      try {
-           
+            $refIds   =      explode(',',$refurls);
             $result     =   $this->_dbUgnReffurlMaster;
            
-           
-            $result =   $result->where(['pk_ref_id' => $refurls]);
-           
+            $result =   $result->select('ref_url');
+           // $result =   $result->where(['pk_ref_id' => $refurls]);
+            $result =   $result->whereIn('pk_ref_id' , $refIds);
             
             $result     =   $result->get()->toArray();
               
